@@ -1,6 +1,6 @@
 @VegasBackend_HostAddress = http://localhost:5098
 
-GET {{VegasBackend_HostAddress}}/weatherforecast/
+GET {{VegasBackend_HostAddress}}/
 Accept: application/json
 
 ###

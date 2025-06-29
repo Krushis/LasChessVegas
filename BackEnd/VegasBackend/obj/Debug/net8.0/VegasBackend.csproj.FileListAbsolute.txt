@@ -6,10 +6,18 @@ C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debu
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\VegasBackend.runtimeconfig.json
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\VegasBackend.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\VegasBackend.pdb
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.csproj.AssemblyReference.cache
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.AssemblyInfoInputs.cache
@@ -17,6 +25,7 @@ C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debu
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.csproj.CoreCompileInputs.cache
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.sourcelink.json
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\scopedcss\bundle\VegasBackend.styles.css
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\staticwebassets.build.json.cache
