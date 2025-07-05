@@ -19,34 +19,51 @@
 
         public override List<string> GetLegalMoves(ChessBoard board)
         {
-            int direction = IsWhite ? -1 : 1; // white move direction is 1, black is -1
+            List<string> moves = new();
 
-            List<string> moves = [];
+            int direction = IsWhite ? -1 : 1; 
+            int startRow = IsWhite ? 6 : 1; // white is on row 6, black is on row 1
 
-            if (board.board[PositionRow + direction][PositionCol] == "-")
+            int row = PositionRow;
+            int col = PositionCol;
+
+            // Move forward 1
+            int nextRow = row + direction;
+            if (IsWithinBounds(nextRow, col) && board.board[nextRow][col] == "-")
             {
-                moves.Add(AnnotationHelper.MakeMove(PositionCol, PositionRow, PositionCol, PositionRow + direction));
-                if (board.board[PositionRow + direction * 2][PositionCol] == "-" && (PositionRow == 6 || PositionRow == 1))
+                moves.Add(AnnotationHelper.MakeMove(col, row, col, nextRow));
+
+                // Move forward 2
+                int twoForward = row + 2 * direction;
+                if (row == startRow && board.board[twoForward][col] == "-")
                 {
-                    moves.Add(AnnotationHelper.MakeMove(PositionCol, PositionRow, PositionCol, PositionRow + 2 * direction));
+                    moves.Add(AnnotationHelper.MakeMove(col, row, col, twoForward));
                 }
             }
 
-            if (board.board[PositionRow + direction][PositionCol + 1] != "-")
+            // Capture right
+            int rightCol = col + 1;
+            if (IsWithinBounds(nextRow, rightCol) && board.board[nextRow][rightCol] != "-")
             {
-                moves.Add(AnnotationHelper.MakeMove(PositionCol, PositionRow, PositionCol + 1, PositionRow + direction));
+                moves.Add(AnnotationHelper.MakeMove(col, row, rightCol, nextRow));
             }
 
-            if (board.board[PositionRow + direction][PositionCol - 1] != "-")
+            // Capture left
+            int leftCol = col - 1;
+            if (IsWithinBounds(nextRow, leftCol) && board.board[nextRow][leftCol] != "-")
             {
-                moves.Add(AnnotationHelper.MakeMove(PositionCol, PositionRow, PositionCol - 1, PositionRow + direction));
+                moves.Add(AnnotationHelper.MakeMove(col, row, leftCol, nextRow));
             }
 
-            // en passante
-
-            // promotion
+            // en passant, promotion
 
             return moves;
         }
+
+        private bool IsWithinBounds(int row, int col)
+        {
+            return row >= 0 && row < 8 && col >= 0 && col < 8;
+        }
+
     }
 }

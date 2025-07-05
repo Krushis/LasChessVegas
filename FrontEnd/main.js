@@ -62,7 +62,7 @@ async function initializeBoard() {
     
 };
 
-LegalMoves = await fetchAPI.get("GetLegalMoves", { board });
+LegalMoves = await fetchAPI.post("GetLegalMoves", { board });
 
 // Make Move
 // if that move is in legalmoves, we update it on backend and show it on frontend

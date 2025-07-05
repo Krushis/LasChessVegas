@@ -4,3 +4,20 @@ GET {{VegasBackend_HostAddress}}/initializeAndGetBoard
 Accept: application/json
 
 ###
+
+POST http://localhost:5098/GetLegalMoves
+Content-Type: application/json
+Accept: application/json
+
+{
+  "board": [
+    ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
+    ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
+    ["-", "-", "-", "-", "-", "-", "-", "-"],
+    ["-", "-", "-", "-", "-", "-", "-", "-"],
+    ["-", "-", "-", "-", "-", "-", "-", "-"],
+    ["-", "-", "-", "-", "-", "-", "-", "-"],
+    ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
+    ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
+  ]
+}
