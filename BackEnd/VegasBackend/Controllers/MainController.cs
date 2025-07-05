@@ -33,7 +33,29 @@ namespace VegasBackend.Controllers
             return Ok(board);
         }
 
+        [HttpGet("/GetLegalMoves")]
+        public IActionResult GetLegalMoves([FromBody] ChessBoard boardObject)
+        {
+            List<string> legalMoves = new List<string>();
 
+            for(int row = 0; row < 8; row++)
+            {
+                for(int col = 0;  col < 8; col++)
+                {
+                    if (boardObject.board[row][col] != "-")
+                    {
+                        var piece = PieceHelper.GetPieceFromCode(boardObject.board[row][col], col, row);
+                        legalMoves.AddRange(piece.GetLegalMoves(boardObject));
+                    }
+                }
+            }
 
+            return Ok(legalMoves);
+        }
     }
+
+
+
+
+}
 }

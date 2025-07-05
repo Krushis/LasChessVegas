@@ -1,15 +1,19 @@
+import AnnotationHelper from "./AnnotationHelper.js";
 import FetchWrapper from "./ApiWrapper.js";
 
 const fetchAPI = new FetchWrapper("http://localhost:5098/");
+const AnnotationHelper = new AnnotationHelper();
 
 initializeBoard();
+const LegalMoves = [];
+const board = null;
 
 async function initializeBoard() {
     try {
         const jsonData = await fetchAPI.get("initializeAndGetBoard");
         console.log("Hello");
         console.log(jsonData);
-        const board = jsonData.board;
+        board = jsonData.board;
 
         console.log(board[0][0]);
 
@@ -57,3 +61,11 @@ async function initializeBoard() {
     }
     
 };
+
+LegalMoves = await fetchAPI.get("GetLegalMoves", { board });
+
+// Make Move
+// if that move is in legalmoves, we update it on backend and show it on frontend
+// then do the same for other side
+
+

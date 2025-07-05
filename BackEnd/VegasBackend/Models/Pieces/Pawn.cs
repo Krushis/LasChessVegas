@@ -3,12 +3,18 @@
     public class Pawn : Piece
     {
         public override string Notation => IsWhite ? "wP" : "bP";
-        public int PositionRow =>  IsWhite ? 6 : 1;
+        public int PositionRow;
         public int PositionCol;
 
         public Pawn(int positionCol)
         {
             PositionCol = positionCol;
+        }
+
+        public Pawn(int positionCol, int positionRow)
+        {
+            PositionCol = positionCol;
+            PositionRow = positionRow;
         }
 
         public override List<string> GetLegalMoves(ChessBoard board)
