@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using VegasBackend.Models;
 
 namespace VegasBackend.Controllers
 {
@@ -13,10 +15,25 @@ namespace VegasBackend.Controllers
             _logger = logger;
         }
 
-        public IAsyncResult GetLegalMoves()
+        /// <summary>
+        /// This method by logic should only be run at the start of the game
+        /// </summary>
+        /// <returns>Request with the data of the board</returns>
+        [HttpGet("/initializeAndGetBoard")]
+        public IActionResult GetBoard()
         {
+            ChessBoard board = new ChessBoard();
+            board.InitializeBoard();
 
+            if(board == null)
+            {
+                NotFound();
+            }
+
+            return Ok(board);
         }
-        
+
+
+
     }
 }

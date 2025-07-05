@@ -1,84 +1,41 @@
 body {
+    background-color: dark blue;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
-    background-color: black;
-    overflow: hidden;
-    }
-
-.chessBoard {
-    width:80vw;
-    height: 80vw;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
+    margin: 0;
 }
 
-.square {
-    width:12.5%;
-    height: 12.5%;
-    float: left;
+.chessBoard {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 400px;
+    border: 2px solid #333;
+}
+
+.row {
+    display: flex;
+    flex: 1;
+}
+
+.cell {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
 }
 
 .white {
-    background-color: #f0d9b5;
+    background-color: white;
 }
 
 .black {
-    background-color: #b58863;
+    background-color: darkgreen;
 }
 
-.coordinate {
-    height:auto;
-    display:flex;
-    bottom: 4%;
-    left:4%;
-    position: absolute;
-    font-size: 12px;
-    font-weight: bold;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.rank {
-    top:4%;
-    right:4%;
-    left:auto;
-}
-
-.whiteText {
-    color:#f0d9b5;
-}
-
-.blackText {
-    color:#b58863;
-}
-
-.piece {
-    width:100%;
-    z-index: 1;
-    cursor: pointer;
-}
-
-.piece img {
-    max-width: 100%;
-    width:100%;
-    height: auto;
-}
-
-@media (min-width:600px) {
-    .chessBoard {
-        width:600px;
-        height: 600px;
-    }
-}
-
-@media (max-width:600px) {
-    .coordinate {
-      font-size: 8px;
-    }
+.chessPiece {
+    max-width: 80%;
+    max-height: 80%;
 }
