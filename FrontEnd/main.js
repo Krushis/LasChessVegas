@@ -2,20 +2,27 @@ import AnnotationHelper from "./AnnotationHelper.js";
 import FetchWrapper from "./ApiWrapper.js";
 
 const fetchAPI = new FetchWrapper("http://localhost:5098/");
-const AnnotationHelper = new AnnotationHelper();
+const annotationHelper = new AnnotationHelper();
 
-initializeBoard();
-const LegalMoves = [];
-const board = null;
+let board = null;
+
+main();
+
+async function main() {
+    await initializeBoard();
+
+    let LegalMoves = [];
+
+    LegalMoves = await fetchAPI.post("GetLegalMoves", board );
+    console.log(LegalMoves);
+}
 
 async function initializeBoard() {
     try {
         const jsonData = await fetchAPI.get("initializeAndGetBoard");
-        console.log("Hello");
-        console.log(jsonData);
         board = jsonData.board;
 
-        console.log(board[0][0]);
+        // board is a 2d array
 
         const boardDiv = document.querySelector(".chessBoard");
         boardDiv.innerHTML = "";
@@ -61,8 +68,6 @@ async function initializeBoard() {
     }
     
 };
-
-LegalMoves = await fetchAPI.post("GetLegalMoves", { board });
 
 // Make Move
 // if that move is in legalmoves, we update it on backend and show it on frontend

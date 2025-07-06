@@ -17,7 +17,7 @@
             PositionRow = positionRow;
         }
 
-        public override List<string> GetLegalMoves(ChessBoard board)
+        public override List<string> GetLegalMoves(string[][] board)
         {
             List<string> moves = new();
 
@@ -29,13 +29,13 @@
 
             // Move forward 1
             int nextRow = row + direction;
-            if (IsWithinBounds(nextRow, col) && board.board[nextRow][col] == "-")
+            if (IsWithinBounds(nextRow, col) && board[nextRow][col] == "-")
             {
                 moves.Add(AnnotationHelper.MakeMove(col, row, col, nextRow));
 
                 // Move forward 2
                 int twoForward = row + 2 * direction;
-                if (row == startRow && board.board[twoForward][col] == "-")
+                if (row == startRow && board[twoForward][col] == "-")
                 {
                     moves.Add(AnnotationHelper.MakeMove(col, row, col, twoForward));
                 }
@@ -43,14 +43,14 @@
 
             // Capture right
             int rightCol = col + 1;
-            if (IsWithinBounds(nextRow, rightCol) && board.board[nextRow][rightCol] != "-")
+            if (IsWithinBounds(nextRow, rightCol) && board[nextRow][rightCol] != "-")
             {
                 moves.Add(AnnotationHelper.MakeMove(col, row, rightCol, nextRow));
             }
 
             // Capture left
             int leftCol = col - 1;
-            if (IsWithinBounds(nextRow, leftCol) && board.board[nextRow][leftCol] != "-")
+            if (IsWithinBounds(nextRow, leftCol) && board[nextRow][leftCol] != "-")
             {
                 moves.Add(AnnotationHelper.MakeMove(col, row, leftCol, nextRow));
             }

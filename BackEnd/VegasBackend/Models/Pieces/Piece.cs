@@ -8,6 +8,6 @@ namespace VegasBackend.Models.Pieces
     {
         public bool IsWhite { get; set; } // ko reikia tai color, notation, 
         public abstract string Notation { get; }
-        public abstract List<string> GetLegalMoves(ChessBoard board);
+        public abstract List<string> GetLegalMoves(string[][] board);
     }
 }

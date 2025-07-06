@@ -1,5 +1,5 @@
 body {
-    background-color: dark blue;
+    background-color: beige;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,4 +38,12 @@ body {
 .chessPiece {
     max-width: 80%;
     max-height: 80%;
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.chessPiece:hover {
+    cursor: pointer;
 }
