@@ -50,8 +50,7 @@
               "RelativeToolTip": "VegasBackend.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-07-06T17:18:37.596Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-06T17:18:37.596Z"
             },
             {
               "$type": "Document",
@@ -61,7 +60,7 @@
               "RelativeDocumentMoniker": "Controllers\\MainController.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\MainController.cs",
               "RelativeToolTip": "Controllers\\MainController.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAAwDMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAwDQAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-05T17:12:57.51Z",
               "EditorCaption": ""
@@ -76,8 +75,7 @@
               "RelativeToolTip": "Models\\Pieces\\Pawn.cs",
               "ViewState": "AgIAAB8AAAAAAAAAAAAkwCQAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T19:59:32.221Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T19:59:32.221Z"
             },
             {
               "$type": "Document",
@@ -89,8 +87,7 @@
               "RelativeToolTip": "Models\\AnnotationHelper.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T19:07:56.509Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T19:07:56.509Z"
             },
             {
               "$type": "Document",
