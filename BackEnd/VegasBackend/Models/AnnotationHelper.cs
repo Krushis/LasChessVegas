@@ -26,5 +26,23 @@ namespace VegasBackend.Models
             int rank = 8 - row;
             return $"{file}{rank}";
         }
+
+        public static (int Row, int Col)? AlgebraicToIndex(string algebraic)
+        {
+            if (string.IsNullOrEmpty(algebraic) || algebraic.Length != 2)
+                return null;
+
+            char file = algebraic[0];
+            char rank = algebraic[1];
+
+            if (file < 'a' || file > 'h' || rank < '1' || rank > '8')
+                return null;
+
+            int col = file - 'a';
+            int row = 8 - (rank - '0');
+
+            return (row, col);
+        }
+
     }
 }

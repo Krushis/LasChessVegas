@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using VegasBackend.DTO;
 using VegasBackend.Models;
 
 namespace VegasBackend.Controllers
@@ -36,21 +37,85 @@ namespace VegasBackend.Controllers
         [HttpPost("/GetLegalMoves")]
         public IActionResult GetLegalMoves([FromBody] string[][] boardObject) // stateless
         {
-            List<string> legalMoves = new List<string>();
-
-            for(int row = 0; row < 8; row++)
+            try
             {
-                for(int col = 0;  col < 8; col++)
+                List<string> legalMoves = new List<string>();
+
+                for (int row = 0; row < 8; row++)
                 {
-                    if (boardObject[row][col] != "-")
+                    for (int col = 0; col < 8; col++)
                     {
-                        var piece = PieceHelper.GetPieceFromCode(boardObject[row][col], col, row);
-                        legalMoves.AddRange(piece.GetLegalMoves(boardObject));
+                        if (boardObject[row][col] != "-")
+                        {
+                            var piece = PieceHelper.GetPieceFromCode(boardObject[row][col], col, row);
+                            legalMoves.AddRange(piece.GetLegalMoves(boardObject));
+                        }
                     }
                 }
-            }
 
-            return Ok(legalMoves);
+                _logger.LogInformation("Got all legal moves");
+
+                return Ok(legalMoves);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("Error in GetLegalMoves - " + ex.Message);
+                return StatusCode(500, new { success = false, message = "Internal server error" });
+            }
+        }
+
+        [HttpPost("/MakeMove")]
+        public IActionResult MakeMove([FromBody] MoveDTO moveObject)
+        {
+            try
+            {
+                if (moveObject == null || string.IsNullOrEmpty(moveObject.From) ||
+                string.IsNullOrEmpty(moveObject.To) || moveObject.Board == null)
+                {
+                    return BadRequest(new { success = false, message = "Invalid move data" });
+                }
+
+                var fromPosition = AnnotationHelper.AlgebraicToIndex(moveObject.From);
+                var toPosition = AnnotationHelper.AlgebraicToIndex(moveObject.To);
+
+                if (fromPosition == null || toPosition == null)
+                {
+                    return BadRequest(new { success = false, message = "Invalid algebraic notation" });
+                }
+
+                string pieceCode = moveObject.Board[fromPosition.Value.Row][fromPosition.Value.Col];
+                if (pieceCode == "-")
+                {
+                    return BadRequest(new { success = false, message = "No piece at source position" });
+                }
+
+                var piece = PieceHelper.GetPieceFromCode(pieceCode, fromPosition.Value.Col, fromPosition.Value.Row);
+                var legalMoves = piece.GetLegalMoves(moveObject.Board);
+                string moveString = moveObject.From + moveObject.To;
+
+                if (!legalMoves.Contains(moveString))
+                {
+                    return BadRequest(new { success = false, message = "Illegal move" });
+                }
+
+                moveObject.Board[toPosition.Value.Row][toPosition.Value.Col] = pieceCode;
+                moveObject.Board[fromPosition.Value.Row][fromPosition.Value.Col] = "-";
+
+                _logger.LogInformation("Made Move - " + moveString);
+
+                return Ok(new
+                {
+                    success = true,
+                    board = moveObject.Board,
+                    message = "Move executed successfully"
+                });
+
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, "Error executing move");
+                return StatusCode(500, new { success = false, message = "Internal server error" });
+            }
         }
     }
 

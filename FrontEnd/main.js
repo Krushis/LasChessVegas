@@ -17,11 +17,6 @@ async function main() {
 }
 
 
-// give each cell the id of the row and cell it represents
-// make each image draggable
-// make the dragging so we when we select (start dragging it gets the value of the cell) and drop it
-// on a different cell (get that id), if that is in legalmoves, then we allow it
-
 async function initializeBoard() {
     try {
         const jsonData = await fetchAPI.get("initializeAndGetBoard");
@@ -71,8 +66,6 @@ async function initializeBoard() {
                     cell.appendChild(pieceImage);
                 }
 
-
-                // todo: implement
                 cell.addEventListener('dragover', handleDragOver);
                 cell.addEventListener('drop', handleDrop);
                 
@@ -82,7 +75,6 @@ async function initializeBoard() {
             boardDiv.appendChild(rowDiv);
 
         }
-
 
     }
 
@@ -96,23 +88,120 @@ async function initializeBoard() {
 let draggedPiece = null;
 let draggedFrom = null;
 
-function handleDragStart(e) {
-    draggedPiece = e.target;
+function handleDragStart(event) {
+    draggedPiece = event.target;
     draggedFrom = {
-        row: parseInt(e.target.dataset.row),
-        col: parseInt(e.target.dataset.col),
-        piece: e.target.dataset.pieceValue,
-        algebraic: e.target.dataset.algebraic
+        row: parseInt(event.target.dataset.row),
+        col: parseInt(event.target.dataset.col),
+        piece: event.target.dataset.pieceValue,
+        algebraic: event.target.dataset.algebraic
     };
 
-    e.target.style.opacity = '0.5';
+    event.target.style.opacity = '0.5';
     
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', e.target.outerHTML);
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/html', event.target.outerHTML);
 
 }
 
-function handleDragOver(e) {
-    e.preventDefault(); // Allow drop
-    e.dataTransfer.dropEffect = 'move';
+function handleDragOver(event) {
+    event.preventDefault(); // allows drop - essential
+    event.dataTransfer.dropEffect = 'move';
 }
+
+function handleDrop(event) {
+    event.preventDefault();
+
+    if (!draggedPiece || !draggedFrom) return;
+
+    // closest so that we can avoid dragging onto image instead of cell
+    const dropCell = event.target.classList.contains('cell') ? event.target : event.target.closest('.cell');
+    if (!dropCell) return;
+
+    const dropRow = parseInt(dropCell.dataset.row);
+    const dropCol = parseInt(dropCell.dataset.col);
+    const dropAlgebraic = dropCell.id;
+
+    const move = {
+        from: draggedFrom.algebraic,
+        to: dropAlgebraic,
+        fromRow: draggedFrom.row,
+        fromCol: draggedFrom.col,
+        toRow: dropRow,
+        toCol: dropCol
+    };
+
+    const moveString = move.from + move.to;
+
+    const isLegalMove = LegalMoves.includes(moveString);
+
+    if (isLegalMove) {
+        executeMove(move, dropCell);
+    } else {
+        draggedPiece.style.opacity = '1';
+        console.log("Illegal move:", moveString);
+    }
+
+    draggedPiece = null;
+    draggedFrom = null;
+}
+
+async function executeMove(move, targetCell) {
+    try{
+        const moveData = {
+            from: move.from,
+            to: move.to,
+            board: board
+        };
+
+        const response = await fetchAPI.post("MakeMove", moveData);
+
+        if (response.success) {
+            const originalCell = document.getElementById(move.from);
+            const pieceToMove = originalCell.querySelector('.chessPiece');
+            
+            if (pieceToMove) {
+                const existingPiece = targetCell.querySelector('.chessPiece');
+                if (existingPiece) {
+                    existingPiece.remove();
+                }
+
+                pieceToMove.style.opacity = '1';
+                pieceToMove.dataset.row = move.toRow;
+                pieceToMove.dataset.col = move.toCol;
+                pieceToMove.dataset.algebraic = move.to;
+                
+                targetCell.appendChild(pieceToMove);
+                
+                board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
+                board[move.fromRow][move.fromCol] = "-";
+                
+                await updateLegalMoves();
+            }
+        } else {
+            draggedPiece.style.opacity = '1';
+            console.log("Move not allowed by the backend, move - " + move.from + move.to);
+        }
+
+    }
+    catch(error) {
+        console.log("Found error in executeMove - " + error);
+        draggedPiece.style.opacity = '1';
+    }
+}
+
+async function updateLegalMoves() {
+    try {
+        LegalMoves = await fetchAPI.post("GetLegalMoves", board);
+        console.log(LegalMoves);
+    } catch (error) {
+        console.error("Error updating legal moves: " + error);
+    }
+}
+
+document.addEventListener('dragend', function(e) {
+    if (e.target.classList.contains('chessPiece')) {
+        e.target.style.opacity = '1';
+    }
+});
+

@@ -2,10 +2,9 @@
 {
     public class MoveDTO
     {
-        public int FromRow { get; set; }
-        public int FromCol { get; set; }
-        public int ToRow { get; set; }
-        public int ToCol { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string[][] Board {  get; set; }
 
     }
 }
