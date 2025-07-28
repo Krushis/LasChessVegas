@@ -21,8 +21,9 @@
         {
             List<string> moves = new();
 
-            int direction = IsWhite ? -1 : 1; 
+            int direction = IsWhite ? -1 : 1;
             int startRow = IsWhite ? 6 : 1; // white is on row 6, black is on row 1
+            string colorLetter = Notation.Substring(0, 1);
 
             int row = PositionRow;
             int col = PositionCol;
@@ -43,14 +44,14 @@
 
             // Capture right
             int rightCol = col + 1;
-            if (IsWithinBounds(nextRow, rightCol) && board[nextRow][rightCol] != "-")
+            if (IsWithinBounds(nextRow, rightCol) && board[nextRow][rightCol] != "-" && board[nextRow][rightCol].Substring(0, 1) != colorLetter)
             {
                 moves.Add(AnnotationHelper.MakeMove(col, row, rightCol, nextRow));
             }
 
             // Capture left
             int leftCol = col - 1;
-            if (IsWithinBounds(nextRow, leftCol) && board[nextRow][leftCol] != "-")
+            if (IsWithinBounds(nextRow, leftCol) && board[nextRow][leftCol] != "-" && board[nextRow][leftCol].Substring(0, 1) != colorLetter)
             {
                 moves.Add(AnnotationHelper.MakeMove(col, row, leftCol, nextRow));
             }

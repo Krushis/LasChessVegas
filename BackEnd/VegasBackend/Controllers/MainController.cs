@@ -35,20 +35,23 @@ namespace VegasBackend.Controllers
         }
 
         [HttpPost("/GetLegalMoves")]
-        public IActionResult GetLegalMoves([FromBody] string[][] boardObject) // stateless
+        public IActionResult GetLegalMoves([FromBody] LegalMovesDTO request) // stateless
         {
             try
             {
                 List<string> legalMoves = new List<string>();
 
+                _logger.LogInformation(request.MoveCount.ToString());
+                string colorLetter = request.MoveCount % 2 == 0 ? "w" : "b";
+
                 for (int row = 0; row < 8; row++)
                 {
                     for (int col = 0; col < 8; col++)
                     {
-                        if (boardObject[row][col] != "-")
+                        if (request.Board[row][col] != "-" && request.Board[row][col].Substring(0, 1) == colorLetter)
                         {
-                            var piece = PieceHelper.GetPieceFromCode(boardObject[row][col], col, row);
-                            legalMoves.AddRange(piece.GetLegalMoves(boardObject));
+                            var piece = PieceHelper.GetPieceFromCode(request.Board[row][col], col, row);
+                            legalMoves.AddRange(piece.GetLegalMoves(request.Board));
                         }
                     }
                 }
