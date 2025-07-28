@@ -21,8 +21,43 @@ namespace VegasBackend.Models.Pieces
 
         public override List<string> GetLegalMoves(string[][] board)
         {
+            List<string> moves = new();
 
-            return new List<string>();
+            int direction = IsWhite ? -1 : 1;
+            string colorLetter = Notation.Substring(0, 1);
+
+            int row = PositionRow;
+            int col = PositionCol;
+
+            // left([0]) is row, right([1]) is col, 
+            int[][] moveDirections = [ [2, 1],
+            [2, -1], [1, 2], [-1, 2], [1, -2], [-1, -2], [-2, 1], [-2, -1] ];
+
+            foreach (var moveDir in moveDirections)
+            {
+                int directionRow = moveDir[0];
+                int directionCol = moveDir[1];
+
+                int tempRow = row + directionRow;
+                int tempCol = col + directionCol;
+
+                if (IsWithinBounds(tempRow, tempCol))
+                {
+                    if (board[tempRow][tempCol] == "-")
+                    {
+                        moves.Add(AnnotationHelper.MakeMove(col, row, tempCol, tempRow));
+
+                    }
+                    else if (board[tempRow][tempCol].Substring(0, 1) != colorLetter)
+                    {
+                        moves.Add(AnnotationHelper.MakeMove(col, row, tempCol, tempRow));
+                    }
+                }
+            }
+
+            // TODO: dont allow to move onto field of view piece, castling, cant take defended piece
+
+            return moves;
         }
     }
 }
