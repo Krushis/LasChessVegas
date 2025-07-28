@@ -44,7 +44,7 @@ namespace VegasBackend.Models.Pieces
 
                 while(IsWithinBounds(tempRow, tempCol))
                 {
-                    if (board[tempRow][col] == "-")
+                    if (board[tempRow][tempCol] == "-")
                     {
                         moves.Add(AnnotationHelper.MakeMove(col, row, tempCol, tempRow));
 
