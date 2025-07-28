@@ -56,14 +56,9 @@
                 moves.Add(AnnotationHelper.MakeMove(col, row, leftCol, nextRow));
             }
 
-            // en passant, promotion
+            // TODO: en passant (after db?), promotion
 
             return moves;
-        }
-
-        private bool IsWithinBounds(int row, int col)
-        {
-            return row >= 0 && row < 8 && col >= 0 && col < 8;
         }
 
     }

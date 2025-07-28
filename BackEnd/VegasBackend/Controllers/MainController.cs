@@ -21,7 +21,8 @@ namespace VegasBackend.Controllers
         /// </summary>
         /// <returns>Request with the data of the board</returns>
         [HttpGet("/initializeAndGetBoard")]
-        public IActionResult GetBoard()
+        public IActionResult GetBoard() // TODO create a db that would save the board info based on gameID, for now lets focus on 
+            // game logic i think
         {
             ChessBoard board = new ChessBoard();
             board.InitializeBoard();
