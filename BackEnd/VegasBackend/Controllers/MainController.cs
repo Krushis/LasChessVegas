@@ -24,15 +24,23 @@ namespace VegasBackend.Controllers
         public IActionResult GetBoard() // TODO create a db that would save the board info based on gameID, for now lets focus on 
             // game logic i think
         {
-            ChessBoard board = new ChessBoard();
-            board.InitializeBoard();
-
-            if(board == null)
+            try
             {
-                NotFound();
-            }
+                ChessBoard board = new ChessBoard();
+                board.InitializeBoard();
 
-            return Ok(board);
+                if (board == null)
+                {
+                    NotFound();
+                }
+
+                return Ok(board);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("Error in GetBoard - " + ex.Message);
+                return StatusCode(500, new { success = false, message = "Internal server error" });
+            }
         }
 
         [HttpPost("/GetLegalMoves")]
@@ -52,7 +60,19 @@ namespace VegasBackend.Controllers
                         if (request.Board[row][col] != "-" && request.Board[row][col].Substring(0, 1) == colorLetter)
                         {
                             var piece = PieceHelper.GetPieceFromCode(request.Board[row][col], col, row);
-                            legalMoves.AddRange(piece.GetLegalMoves(request.Board));
+                            var beforeCheckMoves = piece.GetLegalMoves(request.Board);
+
+                            foreach (var move in beforeCheckMoves)
+                            {
+                                var cloneOfBoard = ChessBoard.CloneBoard(request.Board);
+                                AnnotationHelper.SimulateMove(ref cloneOfBoard, move);
+
+                                if (!AnnotationHelper.IsKingInCheck(cloneOfBoard, colorLetter == "w"))
+                                {
+                                    legalMoves.Add(move);
+                                }
+
+                            }
                         }
                     }
                 }

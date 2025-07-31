@@ -44,5 +44,72 @@ namespace VegasBackend.Models
             return (row, col);
         }
 
+        public static void SimulateMove(ref string[][] board, string move)
+        {
+            var from = move.Substring(0, 2);
+            var to = move.Substring(2, 2);
+
+            var fromIndex = AlgebraicToIndex(from);
+            var toIndex = AlgebraicToIndex(to);
+
+            int fromRow = fromIndex.Value.Row;
+            int fromCol = fromIndex.Value.Col;
+
+            int toRow = toIndex.Value.Row;
+            int toCol = toIndex.Value.Col;
+
+            board[toRow][toCol] = board[fromRow][fromCol];
+            board[fromRow][fromCol] = "-";
+        }
+
+        public static bool IsKingInCheck(string[][] board, bool isWhite)
+        {
+            string kingCode = isWhite ? "wK" : "bK";
+            int kingRow = -1, kingCol = -1;
+
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    if (board[row][col] == kingCode)
+                    {
+                        kingRow = row;
+                        kingCol = col;
+                        break;
+                    }
+                }
+            }
+
+            if (kingRow == -1) return true;
+
+            string enemyColor = isWhite ? "b" : "w";
+
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    string pieceCode = board[row][col];
+                    if (pieceCode != "-" && pieceCode.StartsWith(enemyColor))
+                    {
+                        var enemyPiece = PieceHelper.GetPieceFromCode(pieceCode, col, row);
+                        var enemyMoves = enemyPiece.GetLegalMoves(board);
+
+                        foreach (var move in enemyMoves)
+                        {
+                            var to = move.Substring(2, 2);
+                            var toIndex = AlgebraicToIndex(to);
+                            if (toIndex != null && toIndex.Value.Row == kingRow && toIndex.Value.Col == kingCol)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
     }
 }

@@ -21,6 +21,20 @@ namespace VegasBackend.Models
                 new string[] { "wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR" }  // White back rank
             };
         }
+
+        public static string[][] CloneBoard(string[][] board)
+        {
+            var newBoard = new string[8][];
+            for (int i = 0; i < 8; i++)
+            {
+                newBoard[i] = new string[8];
+                for (int j = 0; j < 8; j++)
+                {
+                    newBoard[i][j] = board[i][j];
+                }
+            }
+            return newBoard;
+        }
         
     }
 }
