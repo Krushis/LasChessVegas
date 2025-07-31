@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using VegasBackend.DTO;
 
 namespace VegasBackend.Models.Pieces
 {
@@ -19,10 +20,10 @@ namespace VegasBackend.Models.Pieces
             PositionRow = positionRow;
         }
 
-        public override List<string> GetLegalMoves(string[][] board, string lastmove)
+        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, string lastmove)
         {
 
-            List<string> moves = new();
+            List<LegalMoveDTO> moves = new();
 
             int direction = IsWhite ? -1 : 1;
             string colorLetter = Notation.Substring(0, 1);
@@ -45,12 +46,12 @@ namespace VegasBackend.Models.Pieces
                 {
                     if (board[tempRow][tempCol] == "-")
                     {
-                        moves.Add(AnnotationHelper.MakeMove(col, row, tempCol, tempRow));
+                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false });
 
                     }
                     else if (board[tempRow][tempCol].Substring(0, 1) != colorLetter)
                     {
-                        moves.Add(AnnotationHelper.MakeMove(col, row, tempCol, tempRow));
+                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false });
                         break;
                     }
                     else

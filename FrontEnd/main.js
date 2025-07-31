@@ -133,11 +133,12 @@ function handleDrop(event) {
     };
 
     const moveString = move.from + move.to;
-
-    const isLegalMove = LegalMoves.includes(moveString);
+    
+    const legalMoveDTO = LegalMoves.find(legalMove => legalMove.move === moveString);
+    const isLegalMove = legalMoveDTO !== undefined;
 
     if (isLegalMove) {
-        executeMove(move, dropCell);
+        executeMove(move, dropCell, legalMoveDTO);
     } else {
         draggedPiece.style.opacity = '1';
         console.log("Illegal move:", moveString);
@@ -147,7 +148,7 @@ function handleDrop(event) {
     draggedFrom = null;
 }
 
-async function executeMove(move, targetCell) {
+async function executeMove(move, targetCell, legalMoveDTO) {
     try{
 
         const lastMove = MadeMoves.length > 0 ? MadeMoves[MadeMoves.length - 1] : null;
@@ -170,6 +171,11 @@ async function executeMove(move, targetCell) {
                 const existingPiece = targetCell.querySelector('.chessPiece');
                 if (existingPiece) {
                     existingPiece.remove();
+                }
+
+                // Handle en passant capture
+                if (legalMoveDTO.isEnPassant) {
+                    handleEnPassantCapture(move);
                 }
 
                 pieceToMove.style.opacity = '1';
@@ -198,6 +204,21 @@ async function executeMove(move, targetCell) {
     }
 }
 
+function handleEnPassantCapture(move) {
+    console.log("enteredenpassanterule")
+    const capturedPawnRow = move.fromRow;
+    const capturedPawnCol = move.toCol;
+    const capturedPawnCell = document.querySelector(`[data-row="${capturedPawnRow}"][data-col="${capturedPawnCol}"]`);
+    
+    if (capturedPawnCell) {
+        const capturedPiece = capturedPawnCell.querySelector('.chessPiece');
+        if (capturedPiece) {
+            capturedPiece.remove();
+            board[capturedPawnRow][capturedPawnCol] = "-";
+        }
+    }
+}
+
 async function updateLegalMoves() {
     try {
         const lastMove = MadeMoves.length > 0 ? MadeMoves[MadeMoves.length - 1] : null;
@@ -205,9 +226,9 @@ async function updateLegalMoves() {
         board: board,
         lastMove: lastMove,
         moveCount: moveCount
-    });
-        console.log(LegalMoves);
-        console.log()
+        });
+        console.log("Legal moves:", LegalMoves);
+        console.log("Move strings:", LegalMoves.map(Move => Move.move));
     } catch (error) {
         console.error("Error updating legal moves: " + error);
     }
@@ -218,4 +239,3 @@ document.addEventListener('dragend', function(e) {
         e.target.style.opacity = '1';
     }
 });
-

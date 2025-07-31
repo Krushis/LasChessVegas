@@ -96,7 +96,7 @@ namespace VegasBackend.Models
 
                         foreach (var move in enemyMoves)
                         {
-                            var to = move.Substring(2, 2);
+                            var to = move.Move.Substring(2, 2);
                             var toIndex = AlgebraicToIndex(to);
                             if (toIndex != null && toIndex.Value.Row == kingRow && toIndex.Value.Col == kingCol)
                             {

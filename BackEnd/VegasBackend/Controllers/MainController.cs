@@ -49,7 +49,7 @@ namespace VegasBackend.Controllers
         {
             try
             {
-                List<string> legalMoves = new List<string>();
+                List<LegalMoveDTO> legalMoves = new List<LegalMoveDTO>();
 
                 _logger.LogInformation(request.MoveCount.ToString());
                 _logger.LogInformation(request.LastMove);
@@ -65,14 +65,14 @@ namespace VegasBackend.Controllers
                             var piece = PieceHelper.GetPieceFromCode(request.Board[row][col], col, row);
                             var beforeCheckMoves = piece.GetLegalMoves(request.Board, request.LastMove);
 
-                            foreach (var move in beforeCheckMoves)
+                            foreach (var moveDTO in beforeCheckMoves)
                             {
                                 var cloneOfBoard = ChessBoard.CloneBoard(request.Board);
-                                AnnotationHelper.SimulateMove(ref cloneOfBoard, move);
+                                AnnotationHelper.SimulateMove(ref cloneOfBoard, moveDTO.Move);
 
                                 if (!AnnotationHelper.IsKingInCheck(cloneOfBoard, colorLetter == "w", request.LastMove))
                                 {
-                                    legalMoves.Add(move);
+                                    legalMoves.Add( moveDTO );
                                 }
 
                             }
@@ -120,7 +120,9 @@ namespace VegasBackend.Controllers
                 var legalMoves = piece.GetLegalMoves(moveObject.Board, moveObject.LastMove);
                 string moveString = moveObject.From + moveObject.To;
 
-                if (!legalMoves.Contains(moveString))
+                var legalMoves2 = legalMoves.Select(k => k.Move);
+
+                if (!legalMoves2.Contains(moveString))
                 {
                     return BadRequest(new { success = false, message = "Illegal move" });
                 }

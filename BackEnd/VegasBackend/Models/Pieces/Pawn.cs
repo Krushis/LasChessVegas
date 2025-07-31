@@ -1,4 +1,6 @@
-﻿namespace VegasBackend.Models.Pieces
+﻿using VegasBackend.DTO;
+
+namespace VegasBackend.Models.Pieces
 {
     public class Pawn : Piece
     {
@@ -17,9 +19,9 @@
             PositionRow = positionRow;
         }
 
-        public override List<string> GetLegalMoves(string[][] board, string lastMove)
+        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, string lastMove)
         {
-            List<string> moves = new();
+            List<LegalMoveDTO> moves = new();
 
             int direction = IsWhite ? -1 : 1;
             int startRow = IsWhite ? 6 : 1; // white is on row 6, black is on row 1
@@ -48,7 +50,7 @@
                     if (isEnemyPawn && movedTwoForward && Math.Abs(movedToCol - col) == 1 && movedToRow == row)
                     {
                         int moveRow = row + direction;
-                        moves.Add(AnnotationHelper.MakeMove(col, row, movedToCol, moveRow));
+                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, movedToCol, moveRow), IsEnPassant = true });
                     }
                 }
             }
@@ -57,13 +59,13 @@
             int nextRow = row + direction;
             if (IsWithinBounds(nextRow, col) && board[nextRow][col] == "-")
             {
-                moves.Add(AnnotationHelper.MakeMove(col, row, col, nextRow));
+                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, nextRow), IsEnPassant = false });
 
                 // Move forward 2
                 int twoForward = row + 2 * direction;
                 if (row == startRow && board[twoForward][col] == "-")
                 {
-                    moves.Add(AnnotationHelper.MakeMove(col, row, col, twoForward));
+                    moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, twoForward), IsEnPassant = false });
                 }
             }
 
@@ -71,14 +73,14 @@
             int rightCol = col + 1;
             if (IsWithinBounds(nextRow, rightCol) && board[nextRow][rightCol] != "-" && board[nextRow][rightCol].Substring(0, 1) != colorLetter)
             {
-                moves.Add(AnnotationHelper.MakeMove(col, row, rightCol, nextRow));
+                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, rightCol, nextRow), IsEnPassant = false });
             }
 
             // Capture left
             int leftCol = col - 1;
             if (IsWithinBounds(nextRow, leftCol) && board[nextRow][leftCol] != "-" && board[nextRow][leftCol].Substring(0, 1) != colorLetter)
             {
-                moves.Add(AnnotationHelper.MakeMove(col, row, leftCol, nextRow));
+                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, leftCol, nextRow), IsEnPassant = false });
             }
 
             // TODO: promotion
