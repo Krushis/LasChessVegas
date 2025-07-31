@@ -6,6 +6,7 @@
         public string To { get; set; }
         public string[][] Board {  get; set; }
         public int MoveCount {  get; set; }
+        public string? LastMove { get; set; } = null;
 
     }
 }

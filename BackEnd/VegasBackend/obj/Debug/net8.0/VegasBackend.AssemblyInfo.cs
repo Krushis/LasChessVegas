@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VegasBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9194fd42ae0227bb35f03f0ac7f3f3c0dcf377f4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1c2c2244b2fe4b5621fe2c82dd8332135fde380")]
 [assembly: System.Reflection.AssemblyProductAttribute("VegasBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VegasBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -62,7 +62,7 @@ namespace VegasBackend.Models
             board[fromRow][fromCol] = "-";
         }
 
-        public static bool IsKingInCheck(string[][] board, bool isWhite)
+        public static bool IsKingInCheck(string[][] board, bool isWhite, string lastMove)
         {
             string kingCode = isWhite ? "wK" : "bK";
             int kingRow = -1, kingCol = -1;
@@ -92,7 +92,7 @@ namespace VegasBackend.Models
                     if (pieceCode != "-" && pieceCode.StartsWith(enemyColor))
                     {
                         var enemyPiece = PieceHelper.GetPieceFromCode(pieceCode, col, row);
-                        var enemyMoves = enemyPiece.GetLegalMoves(board);
+                        var enemyMoves = enemyPiece.GetLegalMoves(board, lastMove);
 
                         foreach (var move in enemyMoves)
                         {

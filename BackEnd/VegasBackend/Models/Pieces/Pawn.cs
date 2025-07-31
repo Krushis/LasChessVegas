@@ -29,20 +29,20 @@
             int col = PositionCol;
 
             // en pessante
-            if (!string.IsNullOrEmpty(lastMove))
+            if (!string.IsNullOrEmpty(lastMove)) // d7d5
             {
-                var from = AnnotationHelper.AlgebraicToIndex(lastMove.Substring(0, 2));
-                var to = AnnotationHelper.AlgebraicToIndex(lastMove.Substring(2, 2));
+                var from = AnnotationHelper.AlgebraicToIndex(lastMove.Substring(0, 2)); // d7
+                var to = AnnotationHelper.AlgebraicToIndex(lastMove.Substring(2, 2)); // d5
 
-                if (from != null && to != null)
+                if (from != null && to != null) // c5 - 2 ir 3
                 {
-                    int movedFromRow = from.Value.Row;
-                    int movedFromCol = from.Value.Col;
-                    int movedToRow = to.Value.Row;
-                    int movedToCol = to.Value.Col;
+                    int movedFromRow = from.Value.Row; // 7
+                    int movedFromCol = from.Value.Col; // 3
+                    int movedToRow = to.Value.Row; // 5
+                    int movedToCol = to.Value.Col; // 3
 
-                    string movedPiece = board[movedToRow][movedToCol];
-                    bool isEnemyPawn = movedPiece == (IsWhite ? "bP" : "wP");
+                    string movedPiece = board[movedToRow][movedToCol]; // 
+                    bool isEnemyPawn = movedPiece == (IsWhite ? "bp" : "wp");
                     bool movedTwoForward = Math.Abs(movedFromRow - movedToRow) == 2;
 
                     if (isEnemyPawn && movedTwoForward && Math.Abs(movedToCol - col) == 1 && movedToRow == row)
@@ -84,11 +84,6 @@
             // TODO: promotion
 
             return moves;
-        }
-
-        public override List<string> GetLegalMoves(string[][] board)
-        {
-            return GetLegalMoves(board, null);
         }
     }
 }

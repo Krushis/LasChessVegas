@@ -149,11 +149,15 @@ function handleDrop(event) {
 
 async function executeMove(move, targetCell) {
     try{
+
+        const lastMove = MadeMoves.length > 0 ? MadeMoves[MadeMoves.length - 1] : null;
+
         const moveData = {
             from: move.from,
             to: move.to,
             board: board,
-            moveCount: moveCount
+            moveCount: moveCount,
+            lastMove: lastMove
         };
 
         const response = await fetchAPI.post("MakeMove", moveData);
@@ -178,7 +182,7 @@ async function executeMove(move, targetCell) {
                 board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
                 board[move.fromRow][move.fromCol] = "-";
 
-                MadeMoves.push(move);
+                MadeMoves.push(move.from + move.to);
                 moveCount++;
                 await updateLegalMoves();
             }

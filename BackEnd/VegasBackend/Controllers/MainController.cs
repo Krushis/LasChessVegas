@@ -63,23 +63,14 @@ namespace VegasBackend.Controllers
                         if (request.Board[row][col] != "-" && request.Board[row][col].Substring(0, 1) == colorLetter)
                         {
                             var piece = PieceHelper.GetPieceFromCode(request.Board[row][col], col, row);
-                            var beforeCheckMoves = new List<string>();
-
-                            if (piece is Pawn)
-                            {
-                                beforeCheckMoves = piece.GetLegalMoves(request.Board, request.LastMove);
-                            }
-                            else
-                            {
-                                beforeCheckMoves = piece.GetLegalMoves(request.Board);
-                            }
+                            var beforeCheckMoves = piece.GetLegalMoves(request.Board, request.LastMove);
 
                             foreach (var move in beforeCheckMoves)
                             {
                                 var cloneOfBoard = ChessBoard.CloneBoard(request.Board);
                                 AnnotationHelper.SimulateMove(ref cloneOfBoard, move);
 
-                                if (!AnnotationHelper.IsKingInCheck(cloneOfBoard, colorLetter == "w"))
+                                if (!AnnotationHelper.IsKingInCheck(cloneOfBoard, colorLetter == "w", request.LastMove))
                                 {
                                     legalMoves.Add(move);
                                 }
@@ -126,7 +117,7 @@ namespace VegasBackend.Controllers
                 }
 
                 var piece = PieceHelper.GetPieceFromCode(pieceCode, fromPosition.Value.Col, fromPosition.Value.Row);
-                var legalMoves = piece.GetLegalMoves(moveObject.Board);
+                var legalMoves = piece.GetLegalMoves(moveObject.Board, moveObject.LastMove);
                 string moveString = moveObject.From + moveObject.To;
 
                 if (!legalMoves.Contains(moveString))

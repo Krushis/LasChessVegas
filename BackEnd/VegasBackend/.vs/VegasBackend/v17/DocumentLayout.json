@@ -3,28 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\dto\\legalmovesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:dto\\legalmovesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\chessboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\chessboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\hubs\\chesshub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:hubs\\chesshub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\annotationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\annotationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\dto\\movedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:dto\\movedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\piecehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\piecehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\piece.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\piece.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\dto\\legalmovesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:dto\\legalmovesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\rook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\rook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\king.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\king.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\queen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\queen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\piece.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\piece.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\knight.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,12 +55,8 @@
       "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\bishop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\queen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\queen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\king.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\king.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\models\\pieces\\rook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:models\\pieces\\rook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,63 +66,130 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainController.cs",
+              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\MainController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MainController.cs",
+              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\MainController.cs",
+              "RelativeToolTip": "Controllers\\MainController.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAwDoAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T18:12:33.091Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Pawn.cs",
+              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Pawn.cs",
+              "RelativeDocumentMoniker": "Models\\Pieces\\Pawn.cs",
+              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Pawn.cs",
+              "RelativeToolTip": "Models\\Pieces\\Pawn.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAkwCwAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T16:02:01.573Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ChessBoard.cs",
+              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\ChessBoard.cs",
+              "RelativeDocumentMoniker": "Models\\ChessBoard.cs",
+              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\ChessBoard.cs",
+              "RelativeToolTip": "Models\\ChessBoard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T18:19:10.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ChessHub.cs",
+              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Hubs\\ChessHub.cs",
+              "RelativeDocumentMoniker": "Hubs\\ChessHub.cs",
+              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Hubs\\ChessHub.cs",
+              "RelativeToolTip": "Hubs\\ChessHub.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T18:19:05.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LegalMovesDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\DTO\\LegalMovesDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\LegalMovesDTO.cs",
+              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\DTO\\LegalMovesDTO.cs",
+              "RelativeToolTip": "DTO\\LegalMovesDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T18:00:27.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AnnotationHelper.cs",
+              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\AnnotationHelper.cs",
+              "RelativeDocumentMoniker": "Models\\AnnotationHelper.cs",
+              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\AnnotationHelper.cs",
+              "RelativeToolTip": "Models\\AnnotationHelper.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAWwB0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T17:55:41.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "MoveDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\DTO\\MoveDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\MoveDTO.cs",
+              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\DTO\\MoveDTO.cs",
+              "RelativeToolTip": "DTO\\MoveDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-31T17:53:06.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "Rook.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Rook.cs",
               "RelativeDocumentMoniker": "Models\\Pieces\\Rook.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Rook.cs",
               "RelativeToolTip": "Models\\Pieces\\Rook.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBsAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-31T17:35:18.707Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "Piece.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Piece.cs",
               "RelativeDocumentMoniker": "Models\\Pieces\\Piece.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Piece.cs",
               "RelativeToolTip": "Models\\Pieces\\Piece.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-31T17:31:59.526Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LegalMovesDTO.cs",
-              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\DTO\\LegalMovesDTO.cs",
-              "RelativeDocumentMoniker": "DTO\\LegalMovesDTO.cs",
-              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\DTO\\LegalMovesDTO.cs",
-              "RelativeToolTip": "DTO\\LegalMovesDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-31T17:21:16.847Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainController.cs",
-              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\MainController.cs",
-              "RelativeDocumentMoniker": "Controllers\\MainController.cs",
-              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\MainController.cs",
-              "RelativeToolTip": "Controllers\\MainController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAuwDoAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-28T18:12:33.091Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "PieceHelper.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\PieceHelper.cs",
               "RelativeDocumentMoniker": "Models\\PieceHelper.cs",
@@ -119,64 +202,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Pawn.cs",
-              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Pawn.cs",
-              "RelativeDocumentMoniker": "Models\\Pieces\\Pawn.cs",
-              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Pawn.cs",
-              "RelativeToolTip": "Models\\Pieces\\Pawn.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAYwFoAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-31T16:02:01.573Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "Knight.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Knight.cs",
               "RelativeDocumentMoniker": "Models\\Pieces\\Knight.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Knight.cs",
               "RelativeToolTip": "Models\\Pieces\\Knight.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAkwDwAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAABVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-28T19:19:24.983Z"
+              "WhenOpened": "2025-07-28T19:19:24.983Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "Bishop.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Bishop.cs",
               "RelativeDocumentMoniker": "Models\\Pieces\\Bishop.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Bishop.cs",
               "RelativeToolTip": "Models\\Pieces\\Bishop.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAAAEIAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-28T19:16:29.787Z"
+              "WhenOpened": "2025-07-28T19:16:29.787Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Queen.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Queen.cs",
               "RelativeDocumentMoniker": "Models\\Pieces\\Queen.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\Queen.cs",
               "RelativeToolTip": "Models\\Pieces\\Queen.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAYwCIAAABLAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-28T19:16:10.956Z"
+              "WhenOpened": "2025-07-28T19:16:10.956Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "King.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\King.cs",
               "RelativeDocumentMoniker": "Models\\Pieces\\King.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Models\\Pieces\\King.cs",
               "RelativeToolTip": "Models\\Pieces\\King.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-28T19:03:31.834Z"
+              "WhenOpened": "2025-07-28T19:03:31.834Z",
+              "EditorCaption": ""
             }
           ]
         }
