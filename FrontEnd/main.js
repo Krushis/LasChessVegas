@@ -6,6 +6,7 @@ const annotationHelper = new AnnotationHelper();
 
 let board = null;
 let LegalMoves = [];
+let MadeMoves = [];
 let moveCount = 0;
 
 main();
@@ -177,6 +178,7 @@ async function executeMove(move, targetCell) {
                 board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
                 board[move.fromRow][move.fromCol] = "-";
 
+                MadeMoves.push(move);
                 moveCount++;
                 await updateLegalMoves();
             }
@@ -194,11 +196,14 @@ async function executeMove(move, targetCell) {
 
 async function updateLegalMoves() {
     try {
+        const lastMove = MadeMoves.length > 0 ? MadeMoves[MadeMoves.length - 1] : null;
         LegalMoves = await fetchAPI.post("GetLegalMoves", {
         board: board,
+        lastMove: lastMove,
         moveCount: moveCount
     });
         console.log(LegalMoves);
+        console.log()
     } catch (error) {
         console.error("Error updating legal moves: " + error);
     }

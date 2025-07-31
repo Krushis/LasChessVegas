@@ -8,7 +8,13 @@ namespace VegasBackend.Models.Pieces
     {
         public bool IsWhite { get; set; }
         public abstract string Notation { get; }
+
         public abstract List<string> GetLegalMoves(string[][] board);
+
+        public virtual List<string> GetLegalMoves(string[][] board, string? lastMove)
+        {
+            return GetLegalMoves(board); // fallback to regular
+        }
 
         protected bool IsWithinBounds(int row, int col) // protected so that only child classes runs it
         {

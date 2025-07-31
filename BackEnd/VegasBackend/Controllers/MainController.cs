@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using VegasBackend.DTO;
 using VegasBackend.Models;
+using VegasBackend.Models.Pieces;
 
 namespace VegasBackend.Controllers
 {
@@ -51,6 +52,8 @@ namespace VegasBackend.Controllers
                 List<string> legalMoves = new List<string>();
 
                 _logger.LogInformation(request.MoveCount.ToString());
+                _logger.LogInformation(request.LastMove);
+
                 string colorLetter = request.MoveCount % 2 == 0 ? "w" : "b";
 
                 for (int row = 0; row < 8; row++)
@@ -60,7 +63,16 @@ namespace VegasBackend.Controllers
                         if (request.Board[row][col] != "-" && request.Board[row][col].Substring(0, 1) == colorLetter)
                         {
                             var piece = PieceHelper.GetPieceFromCode(request.Board[row][col], col, row);
-                            var beforeCheckMoves = piece.GetLegalMoves(request.Board);
+                            var beforeCheckMoves = new List<string>();
+
+                            if (piece is Pawn)
+                            {
+                                beforeCheckMoves = piece.GetLegalMoves(request.Board, request.LastMove);
+                            }
+                            else
+                            {
+                                beforeCheckMoves = piece.GetLegalMoves(request.Board);
+                            }
 
                             foreach (var move in beforeCheckMoves)
                             {

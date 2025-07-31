@@ -17,7 +17,7 @@
             PositionRow = positionRow;
         }
 
-        public override List<string> GetLegalMoves(string[][] board)
+        public override List<string> GetLegalMoves(string[][] board, string lastMove)
         {
             List<string> moves = new();
 
@@ -27,6 +27,31 @@
 
             int row = PositionRow;
             int col = PositionCol;
+
+            // en pessante
+            if (!string.IsNullOrEmpty(lastMove))
+            {
+                var from = AnnotationHelper.AlgebraicToIndex(lastMove.Substring(0, 2));
+                var to = AnnotationHelper.AlgebraicToIndex(lastMove.Substring(2, 2));
+
+                if (from != null && to != null)
+                {
+                    int movedFromRow = from.Value.Row;
+                    int movedFromCol = from.Value.Col;
+                    int movedToRow = to.Value.Row;
+                    int movedToCol = to.Value.Col;
+
+                    string movedPiece = board[movedToRow][movedToCol];
+                    bool isEnemyPawn = movedPiece == (IsWhite ? "bP" : "wP");
+                    bool movedTwoForward = Math.Abs(movedFromRow - movedToRow) == 2;
+
+                    if (isEnemyPawn && movedTwoForward && Math.Abs(movedToCol - col) == 1 && movedToRow == row)
+                    {
+                        int moveRow = row + direction;
+                        moves.Add(AnnotationHelper.MakeMove(col, row, movedToCol, moveRow));
+                    }
+                }
+            }
 
             // Move forward 1
             int nextRow = row + direction;
@@ -56,10 +81,14 @@
                 moves.Add(AnnotationHelper.MakeMove(col, row, leftCol, nextRow));
             }
 
-            // TODO: en passant (after db?), promotion
+            // TODO: promotion
 
             return moves;
         }
 
+        public override List<string> GetLegalMoves(string[][] board)
+        {
+            return GetLegalMoves(board, null);
+        }
     }
 }
