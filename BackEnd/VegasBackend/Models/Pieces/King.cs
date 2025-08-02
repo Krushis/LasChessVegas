@@ -57,7 +57,7 @@ namespace VegasBackend.Models.Pieces
                 }
             }
 
-            // TODO: dont allow to move onto field of view piece, castling, cant take defended piece
+            // castling, cant take defended piece
 
             return moves;
         }

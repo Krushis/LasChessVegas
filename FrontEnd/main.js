@@ -8,6 +8,8 @@ let board = null;
 let LegalMoves = [];
 let MadeMoves = [];
 let moveCount = 0;
+let gameId = null;
+
 
 main();
 
@@ -22,6 +24,7 @@ async function initializeBoard() {
     try {
         const jsonData = await fetchAPI.get("initializeAndGetBoard");
         board = jsonData.board;
+        gameId = jsonData.gameId;
 
         // board is a 2d array
 
@@ -169,17 +172,17 @@ async function executeMove(move, targetCell, legalMoveDTO) {
         console.log(promotionPiece);
 
         const moveData = {
+            gameId: gameId,
             from: move.from,
             to: move.to,
-            board: board,
-            moveCount: moveCount,
-            lastMove: lastMove,
             promotionPiece: promotionPiece
         };
+
 
         const response = await fetchAPI.post("MakeMove", moveData);
 
         if (response.success) {
+            board = response.board;
             const originalCell = document.getElementById(move.from);
             const pieceToMove = originalCell.querySelector('.chessPiece');
             
@@ -220,9 +223,8 @@ async function executeMove(move, targetCell, legalMoveDTO) {
                 MadeMoves.push(move.from + move.to);
                 moveCount++;
 
-               
-
                 await updateLegalMoves();
+
             }
         } else {
             draggedPiece.style.opacity = '1';
@@ -255,12 +257,9 @@ async function updateLegalMoves() {
     try {
         const lastMove = MadeMoves.length > 0 ? MadeMoves[MadeMoves.length - 1] : null;
         LegalMoves = await fetchAPI.post("GetLegalMoves", {
-        board: board,
-        lastMove: lastMove,
-        moveCount: moveCount
+            gameId: gameId,
         });
         console.log("Legal moves:", LegalMoves);
-        console.log("Move strings:", LegalMoves.map(Move => Move.move));
     } catch (error) {
         console.error("Error updating legal moves: " + error);
     }

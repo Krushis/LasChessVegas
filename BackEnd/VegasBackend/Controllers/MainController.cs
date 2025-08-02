@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using VegasBackend.DTO;
 using VegasBackend.Models;
 using VegasBackend.Models.Pieces;
+using VegasBackend.ServerLogic;
 
 namespace VegasBackend.Controllers
 {
@@ -27,67 +29,79 @@ namespace VegasBackend.Controllers
         {
             try
             {
+                var gameID = Guid.NewGuid().ToString();
+
                 ChessBoard board = new ChessBoard();
                 board.InitializeBoard();
+
+                var gameState = new GameState
+                {
+                    Board = board.board
+                };
+
+                GameStore.Games[gameID] = gameState;
 
                 if (board == null)
                 {
                     NotFound();
                 }
 
-                return Ok(board);
+                return Ok(new
+                {
+                    success = true,
+                    gameId = gameID,
+                    board = gameState.Board
+                });
             }
             catch(Exception ex)
             {
                 _logger.LogError("Error in GetBoard - " + ex.Message);
-                return StatusCode(500, new { success = false, message = "Internal server error" });
+                return StatusCode(500, new { success = false, message = "Internal server error trying to get the board" });
             }
         }
 
         [HttpPost("/GetLegalMoves")]
-        public IActionResult GetLegalMoves([FromBody] LegalMovesDTO request) // stateless
+        public IActionResult GetLegalMoves([FromBody] GameIdDTO request) // stateless
         {
             try
             {
-                List<LegalMoveDTO> legalMoves = new List<LegalMoveDTO>();
+                if (!GameStore.Games.TryGetValue(request.GameId, out var gameState))
+                    return NotFound();
 
-                _logger.LogInformation(request.MoveCount.ToString());
-                _logger.LogInformation(request.LastMove);
+                string colorLetter = gameState.MoveCount % 2 == 0 ? "w" : "b";
 
-                string colorLetter = request.MoveCount % 2 == 0 ? "w" : "b";
+                var legalMoves = new List<LegalMoveDTO>();
 
                 for (int row = 0; row < 8; row++)
                 {
                     for (int col = 0; col < 8; col++)
                     {
-                        if (request.Board[row][col] != "-" && request.Board[row][col].Substring(0, 1) == colorLetter)
+                        var pieceCode = gameState.Board[row][col];
+                        if (pieceCode != "-" && pieceCode.StartsWith(colorLetter))
                         {
-                            var piece = PieceHelper.GetPieceFromCode(request.Board[row][col], col, row);
-                            var beforeCheckMoves = piece.GetLegalMoves(request.Board, request.LastMove);
+                            var piece = PieceHelper.GetPieceFromCode(pieceCode, col, row);
+                            var beforeCheckMoves = piece.GetLegalMoves(gameState.Board, gameState.LastMove);
 
                             foreach (var moveDTO in beforeCheckMoves)
                             {
-                                var cloneOfBoard = ChessBoard.CloneBoard(request.Board);
-                                AnnotationHelper.SimulateMove(ref cloneOfBoard, moveDTO.Move);
+                                var cloneBoard = ChessBoard.CloneBoard(gameState.Board);
+                                AnnotationHelper.SimulateMove(ref cloneBoard, moveDTO.Move);
 
-                                if (!AnnotationHelper.IsKingInCheck(cloneOfBoard, colorLetter == "w", request.LastMove))
+                                if (!AnnotationHelper.IsKingInCheck(cloneBoard, colorLetter == "w", gameState.LastMove))
                                 {
-                                    legalMoves.Add( moveDTO );
+                                    legalMoves.Add(moveDTO);
                                 }
-
                             }
                         }
                     }
                 }
 
-                _logger.LogInformation("Got all legal moves");
-
                 return Ok(legalMoves);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("Error in GetLegalMoves - " + ex.Message);
-                return StatusCode(500, new { success = false, message = "Internal server error" });
+                return StatusCode(500, new { success = false, message = "Internal server error trying to get legal moves" });
             }
         }
 
@@ -96,60 +110,56 @@ namespace VegasBackend.Controllers
         {
             try
             {
-                if (moveObject == null || string.IsNullOrEmpty(moveObject.From) ||
-                string.IsNullOrEmpty(moveObject.To) || moveObject.Board == null)
-                {
-                    return BadRequest(new { success = false, message = "Invalid move data" });
-                }
+                if (moveObject == null || string.IsNullOrEmpty(moveObject.GameId))
+                    return BadRequest(new { success = false, message = "Game ID missing" });
 
-                var fromPosition = AnnotationHelper.AlgebraicToIndex(moveObject.From);
-                var toPosition = AnnotationHelper.AlgebraicToIndex(moveObject.To);
+                if (!GameStore.Games.TryGetValue(moveObject.GameId, out var gameState))
+                    return NotFound(new { success = false, message = "Game not found" });
 
-                if (fromPosition == null || toPosition == null)
-                {
-                    return BadRequest(new { success = false, message = "Invalid algebraic notation" });
-                }
+                var fromPos = AnnotationHelper.AlgebraicToIndex(moveObject.From);
+                var toPos = AnnotationHelper.AlgebraicToIndex(moveObject.To);
+                if (fromPos == null || toPos == null)
+                    return BadRequest(new { success = false, message = "Invalid positions" });
 
-                string pieceCode = moveObject.Board[fromPosition.Value.Row][fromPosition.Value.Col];
+                string pieceCode = gameState.Board[fromPos.Value.Row][fromPos.Value.Col];
                 if (pieceCode == "-")
-                {
-                    return BadRequest(new { success = false, message = "No piece at source position" });
-                }
+                    return BadRequest(new { success = false, message = "No piece at source" });
 
-                var piece = PieceHelper.GetPieceFromCode(pieceCode, fromPosition.Value.Col, fromPosition.Value.Row);
-                var legalMoves = piece.GetLegalMoves(moveObject.Board, moveObject.LastMove);
+                var piece = PieceHelper.GetPieceFromCode(pieceCode, fromPos.Value.Col, fromPos.Value.Row);
+                var legalMoves = piece.GetLegalMoves(gameState.Board, gameState.LastMove);
+
                 string moveString = moveObject.From + moveObject.To;
-
-                var legalMoves2 = legalMoves.Select(k => k.Move);
-
-                if (!legalMoves2.Contains(moveString))
-                {
+                if (!legalMoves.Any(m => m.Move == moveString))
                     return BadRequest(new { success = false, message = "Illegal move" });
+
+                // Apply move
+                gameState.Board[toPos.Value.Row][toPos.Value.Col] = pieceCode;
+                gameState.Board[fromPos.Value.Row][fromPos.Value.Col] = "-";
+
+                // Promotion logic
+                if (moveObject.PromotionPiece != null && moveObject.PromotionPiece != "none")
+                {
+                    gameState.Board[toPos.Value.Row][toPos.Value.Col] = moveObject.PromotionPiece;
                 }
 
-                moveObject.Board[toPosition.Value.Row][toPosition.Value.Col] = pieceCode;
-                moveObject.Board[fromPosition.Value.Row][fromPosition.Value.Col] = "-";
-
-                _logger.LogInformation("Made Move - " + moveString);
+                // Update game state
+                gameState.LastMove = moveString;
+                gameState.MoveCount++;
 
                 return Ok(new
                 {
                     success = true,
-                    board = moveObject.Board,
-                    message = "Move executed successfully"
+                    board = gameState.Board
                 });
-
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError(e, "Error executing move");
-                return StatusCode(500, new { success = false, message = "Internal server error" });
+                return StatusCode(500, new { success = false, message = "Internal server error trying to make move" });
             }
         }
+
     }
-
-
-
 
 }
 
