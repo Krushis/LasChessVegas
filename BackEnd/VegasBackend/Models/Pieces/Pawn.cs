@@ -19,8 +19,18 @@ namespace VegasBackend.Models.Pieces
             PositionRow = positionRow;
         }
 
-        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, string lastMove)
+        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, List<string> MadeMoves)
         {
+            string lastMove = null;
+            if (MadeMoves.Count == 0)
+            {
+                
+            }
+            else
+            {
+                lastMove = MadeMoves.LastOrDefault();
+            }
+                
             List<LegalMoveDTO> moves = new();
 
             int direction = IsWhite ? -1 : 1;

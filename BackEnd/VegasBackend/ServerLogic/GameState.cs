@@ -15,6 +15,6 @@
                     new string[] { "wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR" }  // White back rank
                 };
         public int MoveCount { get; set; } = 0;
-        public string LastMove { get; set; } = "";
+        public List<string> MadeMoves { get; set; } = new List<string>();
     }
 }

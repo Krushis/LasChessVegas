@@ -20,7 +20,7 @@ namespace VegasBackend.Models.Pieces
             PositionRow = positionRow;
         }
 
-        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, string lastmove)
+        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, List<string> MadeMoves)
         {
 
             List<LegalMoveDTO> moves = new();

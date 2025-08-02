@@ -170,7 +170,7 @@ async function executeMove(move, targetCell, legalMoveDTO) {
         // this is how to get the name like "wp"
         //console.log(board[move.fromRow][move.fromCol]);
 
-        console.log(legalMoveDTO.isPawnPromotion);
+        //console.log(legalMoveDTO.isPawnPromotion);
 
         // board[move.toRow][move.toCol] -> this is the board position of the piece that we want to promote
         if (legalMoveDTO.isPawnPromotion) {
@@ -178,7 +178,7 @@ async function executeMove(move, targetCell, legalMoveDTO) {
             // the position of the end cell so that we could throw the window there and also need color
         }
 
-        console.log(promotionPiece);
+        //console.log(promotionPiece);
 
         const moveData = {
             gameId: gameId,
@@ -201,22 +201,27 @@ async function executeMove(move, targetCell, legalMoveDTO) {
                     existingPiece.remove();
                 }
 
-                // Handle en passant capture
-                if (legalMoveDTO.isEnPassant) {
-                    handleEnPassantCapture(move);
+                if(legalMoveDTO.isCastle) {
+                    handleCastling();
                 }
+                else{
+                        // Handle en passant capture
+                    if (legalMoveDTO.isEnPassant) {
+                        handleEnPassantCapture(move);
+                    }
 
-                // handles promotion
-                if (promotionPiece !== "none") 
-                {
-                    pieceToMove.src = `./assets/${promotionPiece}.png`;
-                    pieceToMove.alt = promotionPiece;
-                    pieceToMove.dataset.pieceValue = promotionPiece;
-                    board[move.toRow][move.toCol] = promotionPiece;
-                } 
-                else 
-                {
-                    board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
+                    // handles promotion
+                    if (promotionPiece !== "none") 
+                    {
+                        pieceToMove.src = `./assets/${promotionPiece}.png`;
+                        pieceToMove.alt = promotionPiece;
+                        pieceToMove.dataset.pieceValue = promotionPiece;
+                        board[move.toRow][move.toCol] = promotionPiece;
+                    } 
+                    else 
+                    {
+                        board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
+                    }
                 }
 
                 pieceToMove.style.opacity = '1';
@@ -248,7 +253,7 @@ async function executeMove(move, targetCell, legalMoveDTO) {
 }
 
 function handleEnPassantCapture(move) {
-    console.log("enteredenpassanterule")
+    //console.log("enteredenpassanterule")
     const capturedPawnRow = move.fromRow;
     const capturedPawnCol = move.toCol;
     const capturedPawnCell = document.querySelector(`[data-row="${capturedPawnRow}"][data-col="${capturedPawnCol}"]`);
@@ -311,4 +316,60 @@ async function handlePawnPromotion(row, col) {
 
         document.body.appendChild(modal);
     });
+}
+
+function handleCastling()
+{
+    const lastMove = MadeMoves[MadeMoves.length - 1];
+    if (!lastMove) return;
+
+    const from = lastMove.substring(0, 2); // e1 or e8
+    const to = lastMove.substring(2, 4);   // g1/g8 or c1/c8
+
+    const isWhite = from[1] === "1";
+
+    let rookFromId, rookToId;
+
+    if (to === "g1" || to === "g8") {
+        // Kingside castling
+        rookFromId = isWhite ? "h1" : "h8";
+        rookToId = isWhite ? "f1" : "f8";
+    } else if (to === "c1" || to === "c8") {
+        // Queenside castling
+        rookFromId = isWhite ? "a1" : "a8";
+        rookToId = isWhite ? "d1" : "d8";
+    } else {
+        console.warn("Unrecognized castling move:", lastMove);
+        return;
+    }
+
+    const rookFromCell = document.getElementById(rookFromId);
+    const rookToCell = document.getElementById(rookToId);
+
+    if (!rookFromCell || !rookToCell) {
+        console.warn("Castling rook move failed: missing cell.");
+        return;
+    }
+
+    const rookPiece = rookFromCell.querySelector('.chessPiece');
+    if (!rookPiece) {
+        console.warn("No rook found in rookFromCell:", rookFromId);
+        return;
+    }
+
+    // Move rook in DOM
+    rookFromCell.removeChild(rookPiece);
+    rookToCell.appendChild(rookPiece);
+
+    // Update rook piece data
+    rookPiece.dataset.row = rookToCell.dataset.row;
+    rookPiece.dataset.col = rookToCell.dataset.col;
+    rookPiece.dataset.algebraic = rookToId;
+
+    // Update JS board model
+    const fromCoords = annotationHelper.algebraicToIndex(rookFromId); // [col, row]
+    const toCoords = annotationHelper.algebraicToIndex(rookToId);
+
+    board[fromCoords[1]][fromCoords[0]] = "-";
+    board[toCoords[1]][toCoords[0]] = rookPiece.dataset.pieceValue;
 }

@@ -36,7 +36,7 @@ namespace VegasBackend.Controllers
 
                 var gameState = new GameState
                 {
-                    Board = board.board
+                    Board = board.board,
                 };
 
                 GameStore.Games[gameID] = gameState;
@@ -67,7 +67,6 @@ namespace VegasBackend.Controllers
             {
                 if (!GameStore.Games.TryGetValue(request.GameId, out var gameState))
                     return NotFound();
-
                 string colorLetter = gameState.MoveCount % 2 == 0 ? "w" : "b";
 
                 var legalMoves = new List<LegalMoveDTO>();
@@ -80,14 +79,14 @@ namespace VegasBackend.Controllers
                         if (pieceCode != "-" && pieceCode.StartsWith(colorLetter))
                         {
                             var piece = PieceHelper.GetPieceFromCode(pieceCode, col, row);
-                            var beforeCheckMoves = piece.GetLegalMoves(gameState.Board, gameState.LastMove);
+                            var beforeCheckMoves = piece.GetLegalMoves(gameState.Board, gameState.MadeMoves);
 
                             foreach (var moveDTO in beforeCheckMoves)
                             {
                                 var cloneBoard = ChessBoard.CloneBoard(gameState.Board);
                                 AnnotationHelper.SimulateMove(ref cloneBoard, moveDTO.Move);
 
-                                if (!AnnotationHelper.IsKingInCheck(cloneBoard, colorLetter == "w", gameState.LastMove))
+                                if (!AnnotationHelper.IsKingInCheck(cloneBoard, colorLetter == "w", gameState.MadeMoves))
                                 {
                                     legalMoves.Add(moveDTO);
                                 }
@@ -126,7 +125,7 @@ namespace VegasBackend.Controllers
                     return BadRequest(new { success = false, message = "No piece at source" });
 
                 var piece = PieceHelper.GetPieceFromCode(pieceCode, fromPos.Value.Col, fromPos.Value.Row);
-                var legalMoves = piece.GetLegalMoves(gameState.Board, gameState.LastMove);
+                var legalMoves = piece.GetLegalMoves(gameState.Board, gameState.MadeMoves);
 
                 string moveString = moveObject.From + moveObject.To;
                 if (!legalMoves.Any(m => m.Move == moveString))
@@ -140,8 +139,8 @@ namespace VegasBackend.Controllers
                 bool isPawn = pieceCode.EndsWith("p");
                 bool reachedLastRank = (isWhite && toPos.Value.Row == 0) || (!isWhite && toPos.Value.Row == 7);
 
-                _logger.LogInformation("111Made move - " + moveString);
-                _logger.LogInformation("Move count - " + gameState.MoveCount.ToString());
+                //_logger.LogInformation("111Made move - " + moveString);
+                //_logger.LogInformation("Move count - " + gameState.MoveCount.ToString());
 
                 // would be smart to figure out a way to block double moves when promotion window is up
                 // that doesnt just include blocker window, but also provides backend validation, since right now you can just delete it
@@ -174,10 +173,11 @@ namespace VegasBackend.Controllers
                     return BadRequest(new { success = false, message = "Missing promotion piece for pawn" });
                 }
 
-                _logger.LogInformation("Made move - " + moveString);
+                // Cant I just use the MadeMoves variable to check for castling eligiblity?
+                _logger.LogInformation("Made move - " + pieceCode + moveString);
 
                 // Update game state
-                gameState.LastMove = moveString;
+                gameState.MadeMoves.Add(moveString);
                 gameState.MoveCount++;
 
                 return Ok(new

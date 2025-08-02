@@ -20,7 +20,7 @@ namespace VegasBackend.Models.Pieces
             PositionRow = positionRow;
         }
 
-        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, string lastmove)
+        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, List<string> MadeMoves)
         {
 
             List<LegalMoveDTO> moves = new();
@@ -57,9 +57,85 @@ namespace VegasBackend.Models.Pieces
                 }
             }
 
-            // castling, cant take defended piece
+            // castling
 
+            bool kingHasMoved = HasKingMoved(MadeMoves, IsWhite);
+            if (!kingHasMoved && !AnnotationHelper.IsKingInCheck(board, IsWhite, MadeMoves))
+            {
+                if (CanCastle(board, MadeMoves, IsWhite, true))
+                {
+                    moves.Add(new LegalMoveDTO
+                    {
+                        Move = AnnotationHelper.MakeMove(col, row, col + 2, row),
+                        IsCastle = true
+                    });
+                }
+
+                if (CanCastle(board, MadeMoves, IsWhite, false))
+                {
+                    moves.Add(new LegalMoveDTO
+                    {
+                        Move = AnnotationHelper.MakeMove(col, row, col - 2, row),
+                        IsCastle = true
+                    });
+                }
+            }
+            // CODE BROKEN REVISIT TOMORROW
             return moves;
+        }
+
+        private bool HasKingMoved(List<string> madeMoves, bool isWhite)
+        {
+            if (madeMoves.Count == 0) return false;
+            string kingStartPos = isWhite ? "wK" : "bK";
+            return madeMoves.Any(move => move.StartsWith(kingStartPos));
+        }
+
+        private bool CanCastle(string[][] board, List<string> madeMoves, bool isWhite, bool kingside)
+        {
+            if (madeMoves == null || madeMoves.Count == 0) return false;
+            int row = isWhite ? 7 : 0;
+            int rookCol = kingside ? 7 : 0;
+            int kingCol = 4;
+
+            int[] betweenSquaresCols = kingside ? new int[] { 5, 6 } : new int[] { 1, 2, 3 };
+
+            if (betweenSquaresCols.Any(square => board[row][square] != "-") )
+            {
+                return false;
+            }
+
+            string rookCode = (isWhite ? "w" : "b") + "R";
+            if (board[row][rookCol] != rookCode)
+                return false;
+
+            if (HasRookMoved(madeMoves, isWhite, kingside))
+                return false;
+
+            int step = kingside ? 1 : -1;
+            for (int i = 1; i <= 2; i++)
+            {
+                var simulatedBoard = ChessBoard.CloneBoard(board);
+                AnnotationHelper.SimulateMove(ref simulatedBoard,
+                    AnnotationHelper.MakeMove(kingCol, row, kingCol + step * i, row));
+                if (AnnotationHelper.IsKingInCheck(simulatedBoard, isWhite, madeMoves))
+                    return false;
+            }
+
+            return true;
+        }
+        private bool HasRookMoved(List<string> madeMoves, bool isWhite, bool kingside)
+        {
+            if (madeMoves == null || madeMoves.Count == 0) return false;
+            string rookCode = isWhite ? "wR" : "bR";
+
+            string rookStartPos = isWhite ? (kingside ? "h1" : "a1") : (kingside ? "h8" : "a8");
+
+            return madeMoves.Any(move =>
+                move.StartsWith(rookCode) &&
+                move.Length >= 6 &&
+                move.Substring(2, 2) == rookStartPos
+            );
         }
     }
 }
