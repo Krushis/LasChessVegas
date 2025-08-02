@@ -39,6 +39,7 @@ body {
     max-width: 80%;
     max-height: 80%;
     user-select: none;
+    pointer-events: auto;
     -webkit-user-drag: none;
     -moz-user-select: none;
     -ms-user-select: none;

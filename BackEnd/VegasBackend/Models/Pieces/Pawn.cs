@@ -30,6 +30,9 @@ namespace VegasBackend.Models.Pieces
             int row = PositionRow;
             int col = PositionCol;
 
+            bool IsPromotionSquare = (IsWhite && row == 1) || (!IsWhite && row == 6);
+
+
             // en pessante
             if (!string.IsNullOrEmpty(lastMove)) // d7d5
             {
@@ -50,7 +53,9 @@ namespace VegasBackend.Models.Pieces
                     if (isEnemyPawn && movedTwoForward && Math.Abs(movedToCol - col) == 1 && movedToRow == row)
                     {
                         int moveRow = row + direction;
-                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, movedToCol, moveRow), IsEnPassant = true });
+                        
+                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, movedToCol, moveRow), IsEnPassant = true, IsPawnPromotion = IsPromotionSquare });
+                          
                     }
                 }
             }
@@ -59,13 +64,14 @@ namespace VegasBackend.Models.Pieces
             int nextRow = row + direction;
             if (IsWithinBounds(nextRow, col) && board[nextRow][col] == "-")
             {
-                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, nextRow), IsEnPassant = false });
+                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
+                //moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, nextRow), IsEnPassant = false });
 
                 // Move forward 2
                 int twoForward = row + 2 * direction;
                 if (row == startRow && board[twoForward][col] == "-")
                 {
-                    moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, twoForward), IsEnPassant = false });
+                    moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, twoForward), IsEnPassant = false, IsPawnPromotion = false });
                 }
             }
 
@@ -73,17 +79,18 @@ namespace VegasBackend.Models.Pieces
             int rightCol = col + 1;
             if (IsWithinBounds(nextRow, rightCol) && board[nextRow][rightCol] != "-" && board[nextRow][rightCol].Substring(0, 1) != colorLetter)
             {
-                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, rightCol, nextRow), IsEnPassant = false });
+
+                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, rightCol, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
+
+
             }
 
             // Capture left
             int leftCol = col - 1;
             if (IsWithinBounds(nextRow, leftCol) && board[nextRow][leftCol] != "-" && board[nextRow][leftCol].Substring(0, 1) != colorLetter)
             {
-                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, leftCol, nextRow), IsEnPassant = false });
+                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, leftCol, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
             }
-
-            // TODO: promotion
 
             return moves;
         }

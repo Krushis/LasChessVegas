@@ -103,6 +103,10 @@ function handleDragStart(event) {
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('text/html', event.target.outerHTML);
 
+    const transparentImg = new Image();
+    transparentImg.src =
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAnwB9zNlgikAAAAASUVORK5CYII=";
+    event.dataTransfer.setDragImage(transparentImg, 0, 0);
 }
 
 function handleDragOver(event) {

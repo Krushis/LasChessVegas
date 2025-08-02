@@ -47,12 +47,12 @@ namespace VegasBackend.Models.Pieces
                 {
                     if (board[tempRow][tempCol] == "-")
                     {
-                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false });
+                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
 
                     }
                     else if (board[tempRow][tempCol].Substring(0, 1) != colorLetter)
                     {
-                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false });
+                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
                     }
                 }
             }
