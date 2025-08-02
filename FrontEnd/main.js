@@ -103,10 +103,6 @@ function handleDragStart(event) {
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('text/html', event.target.outerHTML);
 
-    const transparentImg = new Image();
-    transparentImg.src =
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAnwB9zNlgikAAAAASUVORK5CYII=";
-    event.dataTransfer.setDragImage(transparentImg, 0, 0);
 }
 
 function handleDragOver(event) {
@@ -157,12 +153,28 @@ async function executeMove(move, targetCell, legalMoveDTO) {
 
         const lastMove = MadeMoves.length > 0 ? MadeMoves[MadeMoves.length - 1] : null;
 
+        let promotionPiece = "none" // default for promotion
+
+        // this is how to get the name like "wp"
+        //console.log(board[move.fromRow][move.fromCol]);
+
+        console.log(legalMoveDTO.isPawnPromotion);
+
+        // board[move.toRow][move.toCol] -> this is the board position of the piece that we want to promote
+        if (legalMoveDTO.isPawnPromotion) {
+            promotionPiece = await handlePawnPromotion(move.toRow, move.toCol); // we want to send over
+            // the position of the end cell so that we could throw the window there and also need color
+        }
+
+        console.log(promotionPiece);
+
         const moveData = {
             from: move.from,
             to: move.to,
             board: board,
             moveCount: moveCount,
-            lastMove: lastMove
+            lastMove: lastMove,
+            promotionPiece: promotionPiece
         };
 
         const response = await fetchAPI.post("MakeMove", moveData);
@@ -182,6 +194,19 @@ async function executeMove(move, targetCell, legalMoveDTO) {
                     handleEnPassantCapture(move);
                 }
 
+                // handles promotion
+                if (promotionPiece !== "none") 
+                {
+                    pieceToMove.src = `./assets/${promotionPiece}.png`;
+                    pieceToMove.alt = promotionPiece;
+                    pieceToMove.dataset.pieceValue = promotionPiece;
+                    board[move.toRow][move.toCol] = promotionPiece;
+                } 
+                else 
+                {
+                    board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
+                }
+
                 pieceToMove.style.opacity = '1';
                 pieceToMove.dataset.row = move.toRow;
                 pieceToMove.dataset.col = move.toCol;
@@ -189,11 +214,14 @@ async function executeMove(move, targetCell, legalMoveDTO) {
                 
                 targetCell.appendChild(pieceToMove);
                 
-                board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
+                //board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
                 board[move.fromRow][move.fromCol] = "-";
 
                 MadeMoves.push(move.from + move.to);
                 moveCount++;
+
+               
+
                 await updateLegalMoves();
             }
         } else {
@@ -243,3 +271,34 @@ document.addEventListener('dragend', function(e) {
         e.target.style.opacity = '1';
     }
 });
+
+async function handlePawnPromotion(row, col) {
+    return new Promise((resolve) => {
+        const color = board[row][col].startsWith("w") ? "b" : "w";
+        const modal = document.createElement("div");
+        modal.className = "promotion-window";
+
+        const cellSize = document.querySelector('.cell').offsetWidth;
+        modal.style.top = `${row * cellSize}px`;
+        modal.style.left = `${col * cellSize}px`;
+
+        const pieces = ["B", "N", "Q", "R"];
+        pieces.forEach(p => {
+            const img = document.createElement("img");
+            img.src = `./assets/${color + p}.png`;
+            img.classList.add("promotion-choice");
+            img.onclick = () => {
+                document.body.removeChild(modal);
+                resolve(color + p);
+            };
+            modal.appendChild(img);
+        });
+
+        const boardRect = document.querySelector('.chessBoard').getBoundingClientRect();
+        modal.style.position = "absolute";
+        modal.style.top = `${boardRect.top + row * cellSize}px`;
+        modal.style.left = `${boardRect.left + col * cellSize}px`;
+
+        document.body.appendChild(modal);
+    });
+}
