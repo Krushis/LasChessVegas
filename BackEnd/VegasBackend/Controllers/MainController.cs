@@ -95,7 +95,7 @@ namespace VegasBackend.Controllers
                         }
                     }
                 }
-
+                _logger.LogInformation("Got legal moves, count - " +  legalMoves.Count);
                 return Ok(legalMoves);
             }
             catch (Exception ex)
@@ -136,11 +136,45 @@ namespace VegasBackend.Controllers
                 gameState.Board[toPos.Value.Row][toPos.Value.Col] = pieceCode;
                 gameState.Board[fromPos.Value.Row][fromPos.Value.Col] = "-";
 
-                // Promotion logic
+                bool isWhite = pieceCode.StartsWith("w");
+                bool isPawn = pieceCode.EndsWith("p");
+                bool reachedLastRank = (isWhite && toPos.Value.Row == 0) || (!isWhite && toPos.Value.Row == 7);
+
+                _logger.LogInformation("111Made move - " + moveString);
+                _logger.LogInformation("Move count - " + gameState.MoveCount.ToString());
+
+                // would be smart to figure out a way to block double moves when promotion window is up
+                // that doesnt just include blocker window, but also provides backend validation, since right now you can just delete it
+
+                // also met bug with queen when we promote it, for some reason it cant go back??
                 if (moveObject.PromotionPiece != null && moveObject.PromotionPiece != "none")
                 {
-                    gameState.Board[toPos.Value.Row][toPos.Value.Col] = moveObject.PromotionPiece;
+                    if (!isPawn || !reachedLastRank)
+                    {
+                        return BadRequest(new { success = false, message = "Invalid promotion: not a pawn at last rank" });
+                    }
+
+                    string promo = moveObject.PromotionPiece;
+
+                    // Validate that it's a valid piece and matches the player's color
+                    string[] allowedPromotions = { "Q", "R", "B", "N" };
+                    bool valid = allowedPromotions.Any(p => promo == (isWhite ? "w" : "b") + p);
+
+                    if (!valid)
+                    {
+                        return BadRequest(new { success = false, message = "Invalid promotion piece" });
+                    }
+
+                    // Apply the promotion
+                    gameState.Board[toPos.Value.Row][toPos.Value.Col] = promo;
                 }
+                else if (isPawn && reachedLastRank)
+                {
+                    // Player did not submit a promotion piece, but one was required
+                    return BadRequest(new { success = false, message = "Missing promotion piece for pawn" });
+                }
+
+                _logger.LogInformation("Made move - " + moveString);
 
                 // Update game state
                 gameState.LastMove = moveString;

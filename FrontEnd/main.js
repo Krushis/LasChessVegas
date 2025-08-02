@@ -93,6 +93,11 @@ let draggedPiece = null;
 let draggedFrom = null;
 
 function handleDragStart(event) {
+    if (document.getElementById("overlay-blocker").style.display === "block") {
+    event.preventDefault();
+    return;
+    }
+
     draggedPiece = event.target;
     draggedFrom = {
         row: parseInt(event.target.dataset.row),
@@ -114,6 +119,10 @@ function handleDragOver(event) {
 }
 
 function handleDrop(event) {
+    if (document.getElementById("overlay-blocker").style.display === "block") {
+    return;
+    }
+
     event.preventDefault();
 
     if (!draggedPiece || !draggedFrom) return;
@@ -274,6 +283,7 @@ document.addEventListener('dragend', function(e) {
 async function handlePawnPromotion(row, col) {
     return new Promise((resolve) => {
         const color = board[row][col].startsWith("w") ? "b" : "w";
+        document.getElementById("overlay-blocker").style.display = "block";
         const modal = document.createElement("div");
         modal.className = "promotion-window";
 
@@ -287,6 +297,7 @@ async function handlePawnPromotion(row, col) {
             img.src = `./assets/${color + p}.png`;
             img.classList.add("promotion-choice");
             img.onclick = () => {
+                document.getElementById("overlay-blocker").style.display = "none";
                 document.body.removeChild(modal);
                 resolve(color + p);
             };
