@@ -114,6 +114,8 @@ function handleDragStart(event) {
     return;
     }
 
+    event.target.classList.add("highlighted-cell");
+
     draggedPiece = event.target;
     draggedFrom = {
         row: parseInt(event.target.dataset.row),
@@ -299,6 +301,9 @@ async function updateLegalMoves() {
 document.addEventListener('dragend', function(e) {
     if (e.target.classList.contains('chessPiece')) {
         e.target.style.opacity = '1';
+        e.target.classList.remove('highlighted-cell');
+        const fromCell = document.getElementById(e.target.dataset.algebraic);
+        fromCell.classList.remove("highlighted-cell");
     }
 });
 
