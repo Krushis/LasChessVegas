@@ -60,41 +60,33 @@ namespace VegasBackend.Controllers
             }
         }
 
+        [HttpPost("/CheckEndGame")]
+        public IActionResult CheckEndGame([FromBody] GameIdDTO request)
+        {
+            if (!GameStore.Games.TryGetValue(request.GameId, out var gameState))
+                return NotFound();
+
+            var result = EndGameChecking.CheckEndGame(gameState);
+
+            return Ok(result);
+        }
+
         [HttpPost("/GetLegalMoves")]
-        public IActionResult GetLegalMoves([FromBody] GameIdDTO request) // stateless
+        public IActionResult GetLegalMoves([FromBody] GameIdDTO request)
         {
             try
             {
                 if (!GameStore.Games.TryGetValue(request.GameId, out var gameState))
                     return NotFound();
-                string colorLetter = gameState.MoveCount % 2 == 0 ? "w" : "b";
 
-                var legalMoves = new List<LegalMoveDTO>();
+                bool isWhiteTurn = gameState.MoveCount % 2 == 0;
+                var legalMoves = LegalMoveGenerator.GetAllLegalMoves(
+                    gameState.Board,
+                    gameState.MadeMoves,
+                    isWhiteTurn
+                );
 
-                for (int row = 0; row < 8; row++)
-                {
-                    for (int col = 0; col < 8; col++)
-                    {
-                        var pieceCode = gameState.Board[row][col];
-                        if (pieceCode != "-" && pieceCode.StartsWith(colorLetter))
-                        {
-                            var piece = PieceHelper.GetPieceFromCode(pieceCode, col, row);
-                            var beforeCheckMoves = piece.GetLegalMoves(gameState.Board, gameState.MadeMoves, false);
-
-                            foreach (var moveDTO in beforeCheckMoves)
-                            {
-                                var cloneBoard = ChessBoard.CloneBoard(gameState.Board);
-                                AnnotationHelper.SimulateMove(ref cloneBoard, moveDTO.Move);
-
-                                if (!AnnotationHelper.IsKingInCheck(cloneBoard, colorLetter == "w", gameState.MadeMoves))
-                                {
-                                    legalMoves.Add(moveDTO);
-                                }
-                            }
-                        }
-                    }
-                }
-                _logger.LogInformation("Got legal moves, count - " +  legalMoves.Count);
+                _logger.LogInformation("Got legal moves, count - " + legalMoves.Count);
                 return Ok(legalMoves);
             }
             catch (Exception ex)

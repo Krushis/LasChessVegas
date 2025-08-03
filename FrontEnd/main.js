@@ -239,7 +239,7 @@ async function executeMove(move, targetCell, legalMoveDTO) {
                 moveCount++;
 
                 await updateLegalMoves();
-
+                await checkEndGame();
             }
         } else {
             draggedPiece.style.opacity = '1';
@@ -372,3 +372,33 @@ function handleCastling(toRow, toCol, fromRow, fromCol)
     board[fromCoords[1]][fromCoords[0]] = "-";
     board[toCoords[1]][toCoords[0]] = rookPiece.dataset.pieceValue;
 }
+
+async function checkEndGame() {
+    try {
+        const result = await fetchAPI.post("CheckEndGame", {
+            gameId: gameId,
+        });
+
+        // console.log("hello");
+        // console.log(result);
+
+        if (result.type === 1) {
+            alert(`Checkmate! Winner is ${result.winner === "w" ? "White" : "Black"}`);
+            document.getElementById("overlay-blocker").style.display = "block";
+        } 
+        else if (result.type === 2) {
+            alert("Game ended in a stalemate.");
+            document.getElementById("overlay-blocker").style.display = "block";
+        }
+        else if (result.type === 3) {
+            alert("Game ended due to insufficient material.");
+            document.getElementById("overlay-blocker").style.display = "block";
+        }
+        else {
+            document.getElementById("overlay-blocker").style.display = "none";
+        }
+    } catch (error) {
+        console.error("Error checking end game status: ", error);
+    }
+}
+
