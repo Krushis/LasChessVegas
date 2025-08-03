@@ -196,13 +196,14 @@ async function executeMove(move, targetCell, legalMoveDTO) {
             const pieceToMove = originalCell.querySelector('.chessPiece');
             
             if (pieceToMove) {
+                MadeMoves.push(move.from + move.to);
                 const existingPiece = targetCell.querySelector('.chessPiece');
                 if (existingPiece) {
                     existingPiece.remove();
                 }
 
                 if(legalMoveDTO.isCastle) {
-                    handleCastling();
+                    handleCastling(move.toRow, move.toCol, move.fromRow, move.fromCol);
                 }
                 else{
                         // Handle en passant capture
@@ -234,7 +235,7 @@ async function executeMove(move, targetCell, legalMoveDTO) {
                 //board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
                 board[move.fromRow][move.fromCol] = "-";
 
-                MadeMoves.push(move.from + move.to);
+                //MadeMoves.push(move.from + move.to);
                 moveCount++;
 
                 await updateLegalMoves();
@@ -318,9 +319,10 @@ async function handlePawnPromotion(row, col) {
     });
 }
 
-function handleCastling()
+function handleCastling(toRow, toCol, fromRow, fromCol)
 {
-    const lastMove = MadeMoves[MadeMoves.length - 1];
+    const lastMove = MadeMoves[MadeMoves.length - 1]; //e1g1
+    console.log(lastMove);
     if (!lastMove) return;
 
     const from = lastMove.substring(0, 2); // e1 or e8
@@ -357,17 +359,14 @@ function handleCastling()
         return;
     }
 
-    // Move rook in DOM
     rookFromCell.removeChild(rookPiece);
     rookToCell.appendChild(rookPiece);
 
-    // Update rook piece data
     rookPiece.dataset.row = rookToCell.dataset.row;
     rookPiece.dataset.col = rookToCell.dataset.col;
     rookPiece.dataset.algebraic = rookToId;
 
-    // Update JS board model
-    const fromCoords = annotationHelper.algebraicToIndex(rookFromId); // [col, row]
+    const fromCoords = annotationHelper.algebraicToIndex(rookFromId);
     const toCoords = annotationHelper.algebraicToIndex(rookToId);
 
     board[fromCoords[1]][fromCoords[0]] = "-";

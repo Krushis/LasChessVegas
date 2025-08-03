@@ -20,7 +20,7 @@ namespace VegasBackend.Models.Pieces
             PositionRow = positionRow;
         }
 
-        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, List<string> MadeMoves)
+        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, List<string> MadeMoves, bool skipCastle)
         {
 
             List<LegalMoveDTO> moves = new();
@@ -60,7 +60,7 @@ namespace VegasBackend.Models.Pieces
             // castling
 
             bool kingHasMoved = HasKingMoved(MadeMoves, IsWhite);
-            if (!kingHasMoved && !AnnotationHelper.IsKingInCheck(board, IsWhite, MadeMoves))
+            if (!skipCastle && !kingHasMoved && !AnnotationHelper.IsKingInCheck(board, IsWhite, MadeMoves))
             {
                 if (CanCastle(board, MadeMoves, IsWhite, true))
                 {

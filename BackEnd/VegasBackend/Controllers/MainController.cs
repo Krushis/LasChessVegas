@@ -79,7 +79,7 @@ namespace VegasBackend.Controllers
                         if (pieceCode != "-" && pieceCode.StartsWith(colorLetter))
                         {
                             var piece = PieceHelper.GetPieceFromCode(pieceCode, col, row);
-                            var beforeCheckMoves = piece.GetLegalMoves(gameState.Board, gameState.MadeMoves);
+                            var beforeCheckMoves = piece.GetLegalMoves(gameState.Board, gameState.MadeMoves, false);
 
                             foreach (var moveDTO in beforeCheckMoves)
                             {
@@ -125,11 +125,39 @@ namespace VegasBackend.Controllers
                     return BadRequest(new { success = false, message = "No piece at source" });
 
                 var piece = PieceHelper.GetPieceFromCode(pieceCode, fromPos.Value.Col, fromPos.Value.Row);
-                var legalMoves = piece.GetLegalMoves(gameState.Board, gameState.MadeMoves);
+                var legalMoves = piece.GetLegalMoves(gameState.Board, gameState.MadeMoves, false);
 
                 string moveString = moveObject.From + moveObject.To;
                 if (!legalMoves.Any(m => m.Move == moveString))
                     return BadRequest(new { success = false, message = "Illegal move" });
+
+                // Check if the move is a castling move
+                bool isKing = pieceCode.EndsWith("K");
+                bool isCastlingMove = isKing && Math.Abs(toPos.Value.Col - fromPos.Value.Col) == 2;
+
+                if (isCastlingMove)
+                {
+                    int rookFromCol, rookToCol;
+                    int row = fromPos.Value.Row;
+
+                    if (toPos.Value.Col > fromPos.Value.Col)
+                    {
+                        // Kingside castling
+                        rookFromCol = 7;
+                        rookToCol = 5;
+                    }
+                    else
+                    {
+                        // Queenside castling
+                        rookFromCol = 0;
+                        rookToCol = 3;
+                    }
+
+                    string rookPiece = gameState.Board[row][rookFromCol];
+                    gameState.Board[row][rookToCol] = rookPiece;
+                    gameState.Board[row][rookFromCol] = "-";
+                }
+
 
                 // Apply move
                 gameState.Board[toPos.Value.Row][toPos.Value.Col] = pieceCode;

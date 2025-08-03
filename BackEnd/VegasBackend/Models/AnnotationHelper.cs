@@ -92,7 +92,7 @@ namespace VegasBackend.Models
                     if (pieceCode != "-" && pieceCode.StartsWith(enemyColor))
                     {
                         var enemyPiece = PieceHelper.GetPieceFromCode(pieceCode, col, row);
-                        var enemyMoves = enemyPiece.GetLegalMoves(board, MadeMoves);
+                        var enemyMoves = enemyPiece.GetLegalMoves(board, MadeMoves, true);
 
                         foreach (var move in enemyMoves)
                         {
