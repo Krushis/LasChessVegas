@@ -19,6 +19,22 @@ async function main() {
     await updateLegalMoves();
 }
 
+document.getElementById("new-game-button").addEventListener("click", async () => {
+    document.getElementById("endgame-modal").classList.add("hidden");
+    document.getElementById("overlay-blocker").style.display = "none";
+
+    MadeMoves = [];
+    moveCount = 0;
+
+    await initializeBoard();
+    await updateLegalMoves();
+});
+
+document.getElementById("endgame-modal").addEventListener("click", function(e) {
+    if (e.target === this) {
+        this.classList.add("hidden");
+    }
+});
 
 async function initializeBoard() {
     try {
@@ -375,28 +391,30 @@ function handleCastling(toRow, toCol, fromRow, fromCol)
 
 async function checkEndGame() {
     try {
-        const result = await fetchAPI.post("CheckEndGame", {
-            gameId: gameId,
-        });
+        const result = await fetchAPI.post("CheckEndGame", { gameId });
+        //console.log(result);
+        if (result.type !== 0) {
+            const modal = document.getElementById("endgame-modal");
+            const title = document.getElementById("endgame-title");
+            const message = document.getElementById("endgame-message");
 
-        // console.log("hello");
-        // console.log(result);
+            if (result.type === "Checkmate") {
+                title.innerText = "Checkmate!";
+                message.innerText = `Winner: ${result.winner === "w" ? "White" : "Black"}`;
+            } else if (result.type === "Stalemate") {
+                title.innerText = "Stalemate!";
+                message.innerText = "The game ended in a draw.";
+            } else if (result.type === "InsufficientMaterial") {
+                title.innerText = "Draw!";
+                message.innerText = "Insufficient material to continue.";
+            }
 
-        if (result.type === 1) {
-            alert(`Checkmate! Winner is ${result.winner === "w" ? "White" : "Black"}`);
+            modal.classList.remove("hidden");
             document.getElementById("overlay-blocker").style.display = "block";
-        } 
-        else if (result.type === 2) {
-            alert("Game ended in a stalemate.");
-            document.getElementById("overlay-blocker").style.display = "block";
-        }
-        else if (result.type === 3) {
-            alert("Game ended due to insufficient material.");
-            document.getElementById("overlay-blocker").style.display = "block";
-        }
-        else {
+        } else {
             document.getElementById("overlay-blocker").style.display = "none";
         }
+
     } catch (error) {
         console.error("Error checking end game status: ", error);
     }
