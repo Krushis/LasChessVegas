@@ -1,10 +1,18 @@
-﻿using VegasBackend.Hubs;
+﻿using Microsoft.EntityFrameworkCore;
+using VegasBackend.DbContex;
+using VegasBackend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddUserSecrets<Program>();
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
+
+var DbConString = builder.Configuration["Db:ConnectionString"];
+
+builder.Services.AddDbContext<AppDbContex>(options => options.UseNpgsql(DbConString));
 
 
 builder.Services.AddCors(options =>
