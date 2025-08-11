@@ -69,6 +69,8 @@ namespace VegasBackend.Controllers
             var board = JsonSerializer.Deserialize<string[][]>(game.BoardJson);
             var madeMoves = JsonSerializer.Deserialize<List<string>>(game.MadeMovesJson);
 
+            _logger.LogInformation(board[0][0]);
+
             var gameState = new GameState // technically can go without this aswell
             {
                 Board = board,
@@ -228,18 +230,21 @@ namespace VegasBackend.Controllers
                 // Cant I just use the MadeMoves variable to check for castling eligiblity?
                 _logger.LogInformation("Made move - " + pieceCode + moveString);
 
-
-                // Record the move
                 gameState.MadeMoves.Add(moveString);
 
-                // Increment move count
-                gameState.MoveCount++;
-
-                // Save back to DB
+                // Record the move
                 game.BoardJson = JsonSerializer.Serialize(gameState.Board);
                 game.MadeMovesJson = JsonSerializer.Serialize(gameState.MadeMoves);
-                game.MoveCount = gameState.MoveCount;
+                game.MoveCount = gameState.MoveCount; // Still the old count
 
+                _dbContext.Games.Update(game);
+                await _dbContext.SaveChangesAsync();
+
+                // NOW increment move count for the next turn
+                gameState.MoveCount++;
+
+                // Update the DB again with the new move count
+                game.MoveCount = gameState.MoveCount;
                 _dbContext.Games.Update(game);
                 await _dbContext.SaveChangesAsync();
 

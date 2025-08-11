@@ -8,7 +8,7 @@ namespace VegasBackend.ServerLogic
         {
             var board = gameState.Board;
             var moveHistory = gameState.MadeMoves;
-            bool isWhiteTurn = gameState.MoveCount % 2 == 0;
+            bool isWhiteTurn = gameState.MoveCount % 2 == 0; // or ==
             string playerColor = isWhiteTurn ? "w" : "b";
 
             var legalMoves = LegalMoveGenerator.GetAllLegalMoves(board, moveHistory, isWhiteTurn);
