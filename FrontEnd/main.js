@@ -38,7 +38,12 @@ document.getElementById("endgame-modal").addEventListener("click", function(e) {
 
 async function initializeBoard() {
     try {
-        const jsonData = await fetchAPI.get("initializeAndGetBoard");
+        const dto = {
+            Player1Id: "test1",
+            Player2Id: "test2" 
+        };
+
+        const jsonData = await fetchAPI.post("CreateAndGetBoard", dto);
         board = jsonData.board;
         gameId = jsonData.gameId;
 
@@ -168,7 +173,7 @@ function handleDrop(event) {
     const isLegalMove = legalMoveDTO !== undefined;
 
     if (isLegalMove) {
-        executeMove(move, dropCell, legalMoveDTO);
+        executeMove(move, dropCell, legalMoveDTO, draggedPiece);
     } else {
         draggedPiece.style.opacity = '1';
         console.log("Illegal move:", moveString);

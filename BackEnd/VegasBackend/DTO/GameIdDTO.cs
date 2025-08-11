@@ -2,6 +2,6 @@
 {
     public class GameIdDTO
     {
-        public string GameId { get; set; }
+        public Guid GameId { get; set; }
     }
 }

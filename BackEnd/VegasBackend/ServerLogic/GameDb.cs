@@ -18,7 +18,12 @@ namespace VegasBackend.ServerLogic
         [Column(TypeName = "jsonb")]
         public string MadeMovesJson { get; set; }
 
-        [Column(TypeName = "timestamp")]
+        [Column(TypeName = "timestamptz")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // Foreign keys
+        public string Player1Id { get; set; }
+        public string Player2Id { get; set; }
+
     }
 }

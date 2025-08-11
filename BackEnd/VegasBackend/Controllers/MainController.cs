@@ -5,6 +5,8 @@ using VegasBackend.DTO;
 using VegasBackend.Models;
 using VegasBackend.Models.Pieces;
 using VegasBackend.ServerLogic;
+using VegasBackend.DbContex;
+using System.Text.Json;
 
 namespace VegasBackend.Controllers
 {
@@ -13,71 +15,90 @@ namespace VegasBackend.Controllers
     public class MainController : ControllerBase
     {
         private readonly ILogger<MainController> _logger;
+        private readonly AppDbContex _dbContext;
 
-        public MainController(ILogger<MainController> logger)
+        public MainController(ILogger<MainController> logger, AppDbContex context)
         {
             _logger = logger;
+            _dbContext = context;
         }
 
-        /// <summary>
-        /// This method by logic should only be run at the start of the game
-        /// </summary>
-        /// <returns>Request with the data of the board</returns>
-        [HttpGet("/initializeAndGetBoard")]
-        public IActionResult GetBoard() // TODO create a db that would save the board info based on gameID, for now lets focus on 
-            // game logic i think
+        [HttpPost("/CreateAndGetBoard")]
+        public async Task<IActionResult> CreateAndGetBoard([FromBody] CreateGameDTO dto)
         {
-            try
+            _logger.LogInformation("Got id - " + dto.Player1Id + dto.Player2Id);
+
+            ChessBoard chess = new ChessBoard();
+            chess.InitializeBoard();
+
+            var newGame = new GameDb
             {
-                var gameID = Guid.NewGuid().ToString();
+                Id = Guid.NewGuid(),
+                BoardJson = JsonSerializer.Serialize(chess.board),
+                MoveCount = 0,
+                MadeMovesJson = JsonSerializer.Serialize(new List<string>()),
+                Player1Id = dto.Player1Id,
+                Player2Id = dto.Player2Id,
+                CreatedAt = DateTime.UtcNow
+            };
 
-                ChessBoard board = new ChessBoard();
-                board.InitializeBoard();
+            _dbContext.Games.Add(newGame);
+            await _dbContext.SaveChangesAsync();
 
-                var gameState = new GameState
-                {
-                    Board = board.board,
-                };
+            var board = chess.board;
 
-                GameStore.Games[gameID] = gameState;
-
-                if (board == null)
-                {
-                    NotFound();
-                }
-
-                return Ok(new
-                {
-                    success = true,
-                    gameId = gameID,
-                    board = gameState.Board
-                });
-            }
-            catch(Exception ex)
+            return Ok(new
             {
-                _logger.LogError("Error in GetBoard - " + ex.Message);
-                return StatusCode(500, new { success = false, message = "Internal server error trying to get the board" });
-            }
+                success = true,
+                gameId = newGame.Id,
+                board,
+                madeMoves = new List<string>(),
+                moveCount = 0,
+                player1Id = newGame.Player1Id,
+                player2Id = newGame.Player2Id
+            });
         }
 
         [HttpPost("/CheckEndGame")]
-        public IActionResult CheckEndGame([FromBody] GameIdDTO request)
+        public async Task<IActionResult> CheckEndGame([FromBody] GameIdDTO request)
         {
-            if (!GameStore.Games.TryGetValue(request.GameId, out var gameState))
-                return NotFound();
+            var game = await _dbContext.Games.FindAsync(request.GameId);
+            if (game == null)
+                return NotFound(new { success = false, message = "Game not found" });
+
+            var board = JsonSerializer.Deserialize<string[][]>(game.BoardJson);
+            var madeMoves = JsonSerializer.Deserialize<List<string>>(game.MadeMovesJson);
+
+            var gameState = new GameState // technically can go without this aswell
+            {
+                Board = board,
+                MadeMoves = madeMoves,
+                MoveCount = game.MoveCount
+            };
 
             var result = EndGameChecking.CheckEndGame(gameState);
 
-            return Ok(result);
+            return Ok(new { success = true, result });
         }
 
         [HttpPost("/GetLegalMoves")]
-        public IActionResult GetLegalMoves([FromBody] GameIdDTO request)
+        public async Task<IActionResult> GetLegalMoves([FromBody] GameIdDTO request)
         {
             try
             {
-                if (!GameStore.Games.TryGetValue(request.GameId, out var gameState))
-                    return NotFound();
+                var game = await _dbContext.Games.FindAsync(request.GameId);
+                if (game == null)
+                    return NotFound(new { success = false, message = "Game not found" });
+
+                var board = JsonSerializer.Deserialize<string[][]>(game.BoardJson);
+                var madeMoves = JsonSerializer.Deserialize<List<string>>(game.MadeMovesJson);
+
+                var gameState = new GameState // technically can go without this aswell
+                {
+                    Board = board,
+                    MadeMoves = madeMoves,
+                    MoveCount = game.MoveCount
+                };
 
                 bool isWhiteTurn = gameState.MoveCount % 2 == 0;
                 var legalMoves = LegalMoveGenerator.GetAllLegalMoves(
@@ -97,15 +118,26 @@ namespace VegasBackend.Controllers
         }
 
         [HttpPost("/MakeMove")]
-        public IActionResult MakeMove([FromBody] MoveDTO moveObject)
+        public async Task<IActionResult> MakeMove([FromBody] MoveDTO moveObject)
         {
             try
             {
-                if (moveObject == null || string.IsNullOrEmpty(moveObject.GameId))
+                if (moveObject == null)
                     return BadRequest(new { success = false, message = "Game ID missing" });
 
-                if (!GameStore.Games.TryGetValue(moveObject.GameId, out var gameState))
+                var game = await _dbContext.Games.FindAsync(moveObject.GameId);
+                if (game == null)
                     return NotFound(new { success = false, message = "Game not found" });
+
+                var board = JsonSerializer.Deserialize<string[][]>(game.BoardJson);
+                var madeMoves = JsonSerializer.Deserialize<List<string>>(game.MadeMovesJson);
+
+                var gameState = new GameState // technically can go without this aswell
+                {
+                    Board = board,
+                    MadeMoves = madeMoves,
+                    MoveCount = game.MoveCount
+                };
 
                 var fromPos = AnnotationHelper.AlgebraicToIndex(moveObject.From);
                 var toPos = AnnotationHelper.AlgebraicToIndex(moveObject.To);
@@ -196,9 +228,20 @@ namespace VegasBackend.Controllers
                 // Cant I just use the MadeMoves variable to check for castling eligiblity?
                 _logger.LogInformation("Made move - " + pieceCode + moveString);
 
-                // Update game state
+
+                // Record the move
                 gameState.MadeMoves.Add(moveString);
+
+                // Increment move count
                 gameState.MoveCount++;
+
+                // Save back to DB
+                game.BoardJson = JsonSerializer.Serialize(gameState.Board);
+                game.MadeMovesJson = JsonSerializer.Serialize(gameState.MadeMoves);
+                game.MoveCount = gameState.MoveCount;
+
+                _dbContext.Games.Update(game);
+                await _dbContext.SaveChangesAsync();
 
                 return Ok(new
                 {
