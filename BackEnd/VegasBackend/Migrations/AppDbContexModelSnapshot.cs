@@ -50,9 +50,51 @@ namespace VegasBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PlayerId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PlayerId1")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("PlayerId");
+
+                    b.HasIndex("PlayerId1");
+
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("VegasBackend.ServerLogic.Player", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("VegasBackend.ServerLogic.GameDb", b =>
+                {
+                    b.HasOne("VegasBackend.ServerLogic.Player", null)
+                        .WithMany("GamesAsPlayer1")
+                        .HasForeignKey("PlayerId");
+
+                    b.HasOne("VegasBackend.ServerLogic.Player", null)
+                        .WithMany("GamesAsPlayer2")
+                        .HasForeignKey("PlayerId1");
+                });
+
+            modelBuilder.Entity("VegasBackend.ServerLogic.Player", b =>
+                {
+                    b.Navigation("GamesAsPlayer1");
+
+                    b.Navigation("GamesAsPlayer2");
                 });
 #pragma warning restore 612, 618
         }
