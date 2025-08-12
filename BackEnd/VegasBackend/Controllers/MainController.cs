@@ -69,7 +69,8 @@ namespace VegasBackend.Controllers
             var board = JsonSerializer.Deserialize<string[][]>(game.BoardJson);
             var madeMoves = JsonSerializer.Deserialize<List<string>>(game.MadeMovesJson);
 
-            _logger.LogInformation(board[0][0]);
+            //_logger.LogInformation(board[0][0]);
+            
 
             var gameState = new GameState // technically can go without this aswell
             {
@@ -80,7 +81,7 @@ namespace VegasBackend.Controllers
 
             var result = EndGameChecking.CheckEndGame(gameState);
 
-            return Ok(new { success = true, result });
+            return Ok(result);
         }
 
         [HttpPost("/GetLegalMoves")]
