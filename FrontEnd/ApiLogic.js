@@ -1,5 +1,5 @@
 import FetchWrapper from "./ApiWrapper.js";
-import { gameId, setLegalMoves, LegalMoves} from "./GameState.js";
+import { gameId, setLegalMoves} from "./GameState.js";
 
 
 const fetchAPI = new FetchWrapper("http://localhost:5098/");

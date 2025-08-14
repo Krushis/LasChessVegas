@@ -1,10 +1,12 @@
 import { gameId, incrementMoveCount, board, setBoard, MadeMoves, draggedPiece} from "./GameState.js";
 import FetchWrapper from "./ApiWrapper.js";
 import {updateLegalMoves, checkEndGame}  from "./ApiLogic.js";
+import AnnotationHelper from "./AnnotationHelper.js";
 
 const fetchAPI = new FetchWrapper("http://localhost:5098/");
+const annotationHelper = new AnnotationHelper();
 
-export async function executeMove(move, targetCell, pieceToMove) {
+export async function executeMove(move, targetCell, legalMoveDTO, pieceToMove) {
     try{
         let promotionPiece = "none" // default for promotion
 
@@ -44,7 +46,11 @@ export async function executeMove(move, targetCell, pieceToMove) {
                 }
 
                 if(legalMoveDTO.isCastle) {
-                    handleCastling(move.toRow, move.toCol, move.fromRow, move.fromCol);
+                    handleCastling();
+                    if (draggedPiece) {
+                    draggedPiece.style.opacity = '1';
+                    draggedPiece = null;
+                    }
                 }
                 else{
                         // Handle en passant capture
@@ -142,7 +148,7 @@ export async function handlePawnPromotion(row, col) {
     });
 }
 
-export function handleCastling(toRow, toCol, fromRow, fromCol)
+export function handleCastling()
 {
     const lastMove = MadeMoves[MadeMoves.length - 1]; //e1g1
     if (!lastMove) return;
