@@ -11,7 +11,7 @@ using VegasBackend.DbContex;
 
 namespace VegasBackend.Migrations
 {
-    [DbContext(typeof(AppDbContex))]
+    [DbContext(typeof(ContextChessDb))]
     [Migration("20250805175351_AddedPlayerIdsToDb")]
     partial class AddedPlayerIdsToDb
     {

@@ -12,19 +12,19 @@ namespace VegasBackend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MainController : ControllerBase
+    public class ControllerMain : ControllerBase
     {
-        private readonly ILogger<MainController> _logger;
-        private readonly AppDbContex _dbContext;
+        private readonly ILogger<ControllerMain> _logger;
+        private readonly ContextChessDb _dbContext;
 
-        public MainController(ILogger<MainController> logger, AppDbContex context)
+        public ControllerMain(ILogger<ControllerMain> logger, ContextChessDb context)
         {
             _logger = logger;
             _dbContext = context;
         }
 
         [HttpPost("/CreateAndGetBoard")]
-        public async Task<IActionResult> CreateAndGetBoard([FromBody] CreateGameDTO dto)
+        public async Task<IActionResult> CreateAndGetBoard([FromBody] DTOGameCreation dto)
         {
             _logger.LogInformation("Got id - " + dto.Player1Id + dto.Player2Id);
 
@@ -60,7 +60,7 @@ namespace VegasBackend.Controllers
         }
 
         [HttpPost("/CheckEndGame")]
-        public async Task<IActionResult> CheckEndGame([FromBody] GameIdDTO request)
+        public async Task<IActionResult> CheckEndGame([FromBody] DTOGameID request)
         {
             var game = await _dbContext.Games.FindAsync(request.GameId);
             if (game == null)
@@ -85,7 +85,7 @@ namespace VegasBackend.Controllers
         }
 
         [HttpPost("/GetLegalMoves")]
-        public async Task<IActionResult> GetLegalMoves([FromBody] GameIdDTO request)
+        public async Task<IActionResult> GetLegalMoves([FromBody] DTOGameID request)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace VegasBackend.Controllers
         }
 
         [HttpPost("/MakeMove")]
-        public async Task<IActionResult> MakeMove([FromBody] MoveDTO moveObject)
+        public async Task<IActionResult> MakeMove([FromBody] DTOMove moveObject)
         {
             try
             {

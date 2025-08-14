@@ -1,6 +1,6 @@
 ﻿namespace VegasBackend.DTO
 {
-    public class GameIdDTO
+    public class DTOGameID
     {
         public Guid GameId { get; set; }
     }

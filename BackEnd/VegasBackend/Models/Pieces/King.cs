@@ -20,10 +20,10 @@ namespace VegasBackend.Models.Pieces
             PositionRow = positionRow;
         }
 
-        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, List<string> MadeMoves, bool skipCastle)
+        public override List<DTOLegalMove> GetLegalMoves(string[][] board, List<string> MadeMoves, bool skipCastle)
         {
 
-            List<LegalMoveDTO> moves = new();
+            List<DTOLegalMove> moves = new();
 
             int direction = IsWhite ? -1 : 1;
             string colorLetter = Notation.Substring(0, 1);
@@ -47,12 +47,12 @@ namespace VegasBackend.Models.Pieces
                 {
                     if (board[tempRow][tempCol] == "-")
                     {
-                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
+                        moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
 
                     }
                     else if (board[tempRow][tempCol].Substring(0, 1) != colorLetter)
                     {
-                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
+                        moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
                     }
                 }
             }
@@ -64,7 +64,7 @@ namespace VegasBackend.Models.Pieces
             {
                 if (CanCastle(board, MadeMoves, IsWhite, true))
                 {
-                    moves.Add(new LegalMoveDTO
+                    moves.Add(new DTOLegalMove
                     {
                         Move = AnnotationHelper.MakeMove(col, row, col + 2, row),
                         IsCastle = true
@@ -73,7 +73,7 @@ namespace VegasBackend.Models.Pieces
 
                 if (CanCastle(board, MadeMoves, IsWhite, false))
                 {
-                    moves.Add(new LegalMoveDTO
+                    moves.Add(new DTOLegalMove
                     {
                         Move = AnnotationHelper.MakeMove(col, row, col - 2, row),
                         IsCastle = true

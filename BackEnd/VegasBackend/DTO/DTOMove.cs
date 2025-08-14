@@ -1,6 +1,6 @@
 ﻿namespace VegasBackend.DTO
 {
-    public class MoveDTO
+    public class DTOMove
     {
         public Guid GameId { get; set; }
         public string From { get; set; }

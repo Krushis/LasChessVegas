@@ -10,7 +10,7 @@ using VegasBackend.DbContex;
 
 namespace VegasBackend.Migrations
 {
-    [DbContext(typeof(AppDbContex))]
+    [DbContext(typeof(ContextChessDb))]
     partial class AppDbContexModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

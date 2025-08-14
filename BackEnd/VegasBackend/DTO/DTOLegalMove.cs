@@ -1,6 +1,6 @@
 ﻿namespace VegasBackend.DTO
 {
-    public class LegalMoveDTO
+    public class DTOLegalMove
     {
         public string Move { get; set; }        // e.g., "e5d6"
         public bool IsEnPassant { get; set; }

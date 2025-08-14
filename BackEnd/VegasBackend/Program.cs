@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 var DbConString = builder.Configuration["Db:ConnectionString"];
 
-builder.Services.AddDbContext<AppDbContex>(options => options.UseNpgsql(DbConString));
+builder.Services.AddDbContext<ContextChessDb>(options => options.UseNpgsql(DbConString));
 
 
 builder.Services.AddCors(options =>

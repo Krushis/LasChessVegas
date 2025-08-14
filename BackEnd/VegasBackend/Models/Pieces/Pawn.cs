@@ -19,7 +19,7 @@ namespace VegasBackend.Models.Pieces
             PositionRow = positionRow;
         }
 
-        public override List<LegalMoveDTO> GetLegalMoves(string[][] board, List<string> MadeMoves, bool skipCastle)
+        public override List<DTOLegalMove> GetLegalMoves(string[][] board, List<string> MadeMoves, bool skipCastle)
         {
             string lastMove = null;
             if (MadeMoves.Count == 0)
@@ -31,7 +31,7 @@ namespace VegasBackend.Models.Pieces
                 lastMove = MadeMoves.LastOrDefault();
             }
                 
-            List<LegalMoveDTO> moves = new();
+            List<DTOLegalMove> moves = new();
 
             int direction = IsWhite ? -1 : 1;
             int startRow = IsWhite ? 6 : 1; // white is on row 6, black is on row 1
@@ -64,7 +64,7 @@ namespace VegasBackend.Models.Pieces
                     {
                         int moveRow = row + direction;
                         
-                        moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, movedToCol, moveRow), IsEnPassant = true, IsPawnPromotion = IsPromotionSquare });
+                        moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, movedToCol, moveRow), IsEnPassant = true, IsPawnPromotion = IsPromotionSquare });
                           
                     }
                 }
@@ -74,14 +74,14 @@ namespace VegasBackend.Models.Pieces
             int nextRow = row + direction;
             if (IsWithinBounds(nextRow, col) && board[nextRow][col] == "-")
             {
-                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
+                moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, col, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
                 //moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, nextRow), IsEnPassant = false });
 
                 // Move forward 2
                 int twoForward = row + 2 * direction;
                 if (row == startRow && board[twoForward][col] == "-")
                 {
-                    moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, col, twoForward), IsEnPassant = false, IsPawnPromotion = false });
+                    moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, col, twoForward), IsEnPassant = false, IsPawnPromotion = false });
                 }
             }
 
@@ -90,7 +90,7 @@ namespace VegasBackend.Models.Pieces
             if (IsWithinBounds(nextRow, rightCol) && board[nextRow][rightCol] != "-" && board[nextRow][rightCol].Substring(0, 1) != colorLetter)
             {
 
-                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, rightCol, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
+                moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, rightCol, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
 
 
             }
@@ -99,7 +99,7 @@ namespace VegasBackend.Models.Pieces
             int leftCol = col - 1;
             if (IsWithinBounds(nextRow, leftCol) && board[nextRow][leftCol] != "-" && board[nextRow][leftCol].Substring(0, 1) != colorLetter)
             {
-                moves.Add(new LegalMoveDTO { Move = AnnotationHelper.MakeMove(col, row, leftCol, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
+                moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, leftCol, nextRow), IsEnPassant = false, IsPawnPromotion = IsPromotionSquare });
             }
 
             return moves;

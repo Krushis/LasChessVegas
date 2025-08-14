@@ -5,9 +5,9 @@ namespace VegasBackend.ServerLogic
 {
     public class LegalMoveGenerator
     {
-        public static List<LegalMoveDTO> GetAllLegalMoves(string[][] board, List<string> madeMoves, bool isWhiteTurn)
+        public static List<DTOLegalMove> GetAllLegalMoves(string[][] board, List<string> madeMoves, bool isWhiteTurn)
         {
-            var legalMoves = new List<LegalMoveDTO>();
+            var legalMoves = new List<DTOLegalMove>();
             string colorLetter = isWhiteTurn ? "w" : "b";
 
             for (int row = 0; row < 8; row++)
