@@ -9,6 +9,7 @@ export async function updateLegalMoves() {
         const moves = await fetchAPI.post("GetLegalMoves", {
             gameId: gameId,
         });
+        console.log(moves);
         setLegalMoves(moves);
     } catch (error) {
         console.error("Error updating legal moves: " + error);

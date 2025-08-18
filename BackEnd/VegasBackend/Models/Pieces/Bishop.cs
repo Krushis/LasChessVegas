@@ -5,7 +5,7 @@ namespace VegasBackend.Models.Pieces
 {
     public class Bishop : Piece
     {
-        public override string Notation => IsWhite ? "wP" : "bP";
+        public override string Notation => IsWhite ? "wB" : "bB";
         public int PositionRow;
         public int PositionCol;
 
@@ -46,12 +46,12 @@ namespace VegasBackend.Models.Pieces
                 {
                     if (board[tempRow][tempCol] == "-")
                     {
-                        moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
+                        moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), Piece = Notation, IsEnPassant = false, IsPawnPromotion = false });
 
                     }
                     else if (board[tempRow][tempCol].Substring(0, 1) != colorLetter)
                     {
-                        moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), IsEnPassant = false, IsPawnPromotion = false });
+                        moves.Add(new DTOLegalMove { Move = AnnotationHelper.MakeMove(col, row, tempCol, tempRow), Piece = Notation, IsEnPassant = false, IsPawnPromotion = false });
                         break;
                     }
                     else

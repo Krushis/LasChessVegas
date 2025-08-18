@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using VegasBackend.DTO;
@@ -110,8 +110,26 @@ namespace VegasBackend.Controllers
                     isWhiteTurn
                 );
 
-                _logger.LogInformation("Got legal moves, count - " + legalMoves.Count);
-                return Ok(legalMoves);
+                var movesByPiece = legalMoves
+                    .GroupBy(m => m.Piece)
+                    .ToList();
+
+                if (movesByPiece.Count <= 3)
+                {
+                    return Ok(legalMoves);
+                }
+
+                // we pick 2 random pieces here
+                var rnd = new Random();
+                var chosenGroups = movesByPiece
+                    .OrderBy(x => rnd.Next())
+                    .Take(3)
+                    .SelectMany(g => g)
+                    .ToList();
+
+                _logger.LogInformation("Got legal moves, returning " + chosenGroups.Count + " moves from 3 pieces");
+
+                return Ok(chosenGroups);
             }
             catch (Exception ex)
             {

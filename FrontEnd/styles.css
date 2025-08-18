@@ -7,13 +7,47 @@ body {
     margin: 0;
 }
 
+#header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.start-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.start-btn:hover {
+  background-color: #45a049;
+}
+
+
 .chessBoard {
     display: flex;
     flex-direction: column;
     width: 400px;
     height: 400px;
-    border: 2px solid #333;
+    /* border: 2px solid #333; */
 }
+
+/* styles.css */
+.chessBoard.active {
+  border: 2px solid #333;
+}
+
 
 .row {
     display: flex;

@@ -118,6 +118,7 @@ C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debu
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.csproj.AssemblyReference.cache
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\rpswa.dswa.cache.json
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.AssemblyInfoInputs.cache
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.AssemblyInfo.cs
@@ -125,6 +126,9 @@ C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debu
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.sourcelink.json
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\scopedcss\bundle\VegasBackend.styles.css
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\staticwebassets.build.json.cache

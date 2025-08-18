@@ -1,16 +1,18 @@
 import {initializeBoardUI} from "./Board.js";
-import "./DragPieces.js";
-import "./ApiLogic.js";
-import "./MoveLogic.js";
 import {updateLegalMoves}  from "./ApiLogic.js";
 
-main();
-
 async function main() {
-
+    // await Promise.all([updateLegalMoves(), checkEndGame()]);
     await initializeBoardUI();
     await updateLegalMoves();
 }
+
+// Start button listener
+document.getElementById("start-game-button").addEventListener("click", async () => {
+    await main();
+    const chessBoard = document.querySelector(".chessBoard");
+    chessBoard.classList.add("active");
+});
 
 document.getElementById("new-game-button").addEventListener("click", async () => {
     document.getElementById("endgame-modal").classList.add("hidden");
