@@ -81,3 +81,21 @@ export async function initializeBoardUI() {
     }
     
 };
+
+export function showAllowedPiecesUI(AllowedPieces) {
+    const container = document.getElementById("allowed-pieces");
+    container.innerHTML = ""; 
+
+    if (AllowedPieces.length === 0) {
+        container.innerHTML = "<span>No moves available</span>";
+        return;
+    }
+
+    AllowedPieces.forEach(piece => {
+        const img = document.createElement("img");
+        img.src = `./assets/${piece}.png`;
+        img.alt = piece;
+        img.classList.add("allowed-piece-icon");
+        container.appendChild(img);
+    });
+}

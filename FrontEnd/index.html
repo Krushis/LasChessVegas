@@ -23,19 +23,23 @@
       background-color: rgba(0,0,0,0);
   "></div>
 
-    <div id="main-content">
-
-      <div class="chessBoard">
-
+    <div id="main-content" style="display: flex; align-items: flex-start; gap: 20px;">
+      <div id="allowed-pieces-container">
+          <!-- <h3>Allowed Pieces</h3> -->
+          <div id="allowed-pieces"></div>
       </div>
 
+      <div class="chessBoard"></div>
+
       <div id="endgame-modal" class="modal hidden">
-        <div class="modal-content">
-          <h2 id="endgame-title">Game Over</h2>
-          <p id="endgame-message"></p>
-          <button id="new-game-button">Start New Game</button>
-        </div>
-    < /div>
+          <div class="modal-content">
+              <h2 id="endgame-title">Game Over</h2>
+              <p id="endgame-message"></p>
+              <button id="new-game-button">Start New Game</button>
+          </div>
+    </div>
+
+</div>
 
 
     </div>

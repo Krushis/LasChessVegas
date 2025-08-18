@@ -1,5 +1,6 @@
 import FetchWrapper from "./ApiWrapper.js";
 import { gameId, setLegalMoves} from "./GameState.js";
+import {showAllowedPiecesUI} from "./Board.js";
 
 
 const fetchAPI = new FetchWrapper("http://localhost:5098/");
@@ -9,8 +10,11 @@ export async function updateLegalMoves() {
         const moves = await fetchAPI.post("GetLegalMoves", {
             gameId: gameId,
         });
-        console.log(moves);
+        //console.log(moves);
         setLegalMoves(moves);
+
+        const AllowedPieces = [...new Set(moves.map(m => m.piece))];
+        showAllowedPiecesUI(AllowedPieces);
     } catch (error) {
         console.error("Error updating legal moves: " + error);
     }
