@@ -140,3 +140,4 @@ C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debu
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.pdb
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\VegasBackend.genruntimeconfig.cache
 C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\ref\VegasBackend.dll
+C:\Users\Lukas\Documents\Programming\LasChessVegas\BackEnd\VegasBackend\obj\Debug\net8.0\swae.build.ex.cache

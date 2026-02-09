@@ -1,7 +1,6 @@
 import FetchWrapper from "./ApiWrapper.js";
 import { gameId, setLegalMoves} from "./GameState.js";
-import {showAllowedPiecesUI} from "./Board.js";
-
+import { showAllowedPiecesUI } from "./Board.js";
 
 const fetchAPI = new FetchWrapper("http://localhost:5098/");
 
@@ -10,9 +9,7 @@ export async function updateLegalMoves() {
         const moves = await fetchAPI.post("GetLegalMoves", {
             gameId: gameId,
         });
-        //console.log(moves);
         setLegalMoves(moves);
-
         const AllowedPieces = [...new Set(moves.map(m => m.piece))];
         showAllowedPiecesUI(AllowedPieces);
     } catch (error) {
@@ -27,7 +24,6 @@ export async function checkEndGame() {
             const modal = document.getElementById("endgame-modal");
             const title = document.getElementById("endgame-title");
             const message = document.getElementById("endgame-message");
-
             if (result.type === 1) {
                 title.innerText = "Checkmate!";
                 message.innerText = `Winner: ${result.winner === "w" ? "White" : "Black"}`;
@@ -38,14 +34,30 @@ export async function checkEndGame() {
                 title.innerText = "Draw!";
                 message.innerText = "Insufficient material to continue.";
             }
-
             modal.classList.remove("hidden");
             document.getElementById("overlay-blocker").style.display = "block";
         } else {
             document.getElementById("overlay-blocker").style.display = "none";
         }
-
     } catch (error) {
         console.error("Error checking end game status: ", error);
+    }
+}
+
+export async function makeAIMove() {
+    try {
+        const data = await fetchAPI.post("GetAIMove", {
+            gameId: gameId
+        });
+        
+        if (!data.success) {
+            console.error("AI move failed:", data.message);
+            return null;
+        }
+        
+        return data;
+    } catch (error) {
+        console.error("Error getting AI move:", error);
+        return null;
     }
 }

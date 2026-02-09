@@ -1,4 +1,4 @@
-import { gameId, incrementMoveCount, board, setBoard, MadeMoves, draggedPiece} from "./GameState.js";
+import { gameId, incrementMoveCount, board, setBoard, MadeMoves} from "./GameState.js";
 import FetchWrapper from "./ApiWrapper.js";
 import {updateLegalMoves, checkEndGame}  from "./ApiLogic.js";
 import AnnotationHelper from "./AnnotationHelper.js";
@@ -7,21 +7,12 @@ const fetchAPI = new FetchWrapper("http://localhost:5098/");
 const annotationHelper = new AnnotationHelper();
 
 export async function executeMove(move, targetCell, legalMoveDTO, pieceToMove) {
-    try{
-        let promotionPiece = "none" // default for promotion
+    try {
+        let promotionPiece = "none";
 
-        // this is how to get the name like "wp"
-        //console.log(board[move.fromRow][move.fromCol]);
-
-        //console.log(legalMoveDTO.isPawnPromotion);
-
-        // board[move.toRow][move.toCol] -> this is the board position of the piece that we want to promote
         if (legalMoveDTO.isPawnPromotion) {
-            promotionPiece = await handlePawnPromotion(move.toRow, move.toCol); // we want to send over
-            // the position of the end cell so that we could throw the window there and also need color
+            promotionPiece = await handlePawnPromotion(move.toRow, move.toCol);
         }
-
-        //console.log(promotionPiece);
 
         const moveData = {
             gameId: gameId,
@@ -29,7 +20,6 @@ export async function executeMove(move, targetCell, legalMoveDTO, pieceToMove) {
             to: move.to,
             promotionPiece: promotionPiece
         };
-
 
         const response = await fetchAPI.post("MakeMove", moveData);
 
@@ -45,29 +35,21 @@ export async function executeMove(move, targetCell, legalMoveDTO, pieceToMove) {
                     existingPiece.remove();
                 }
 
-                if(legalMoveDTO.isCastle) {
+                if (legalMoveDTO.isCastle) {
                     handleCastling();
-                    if (draggedPiece) {
-                    draggedPiece.style.opacity = '1';
-                    draggedPiece = null;
-                    }
-                }
-                else{
-                        // Handle en passant capture
+                } else {
+                    // Handle en passant capture
                     if (legalMoveDTO.isEnPassant) {
                         handleEnPassantCapture(move);
                     }
 
                     // handles promotion
-                    if (promotionPiece !== "none") 
-                    {
+                    if (promotionPiece !== "none") {
                         pieceToMove.src = `./assets/${promotionPiece}.png`;
                         pieceToMove.alt = promotionPiece;
                         pieceToMove.dataset.pieceValue = promotionPiece;
                         board[move.toRow][move.toCol] = promotionPiece;
-                    } 
-                    else 
-                    {
+                    } else {
                         board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
                     }
                 }
@@ -79,11 +61,9 @@ export async function executeMove(move, targetCell, legalMoveDTO, pieceToMove) {
                 
                 targetCell.appendChild(pieceToMove);
                 
-                //board[move.toRow][move.toCol] = board[move.fromRow][move.fromCol];
                 board[move.fromRow][move.fromCol] = "-";
 
-                //MadeMoves.push(move.from + move.to);
-                incrementMoveCount()
+                incrementMoveCount();
 
                 await updateLegalMoves();
                 await checkEndGame();
@@ -93,8 +73,7 @@ export async function executeMove(move, targetCell, legalMoveDTO, pieceToMove) {
             console.log("Move not allowed by the backend, move - " + move.from + move.to);
         }
 
-    }
-    catch(error) {
+    } catch (error) {
         console.log("Found error in executeMove - " + error);
         pieceToMove.style.opacity = '1';
     }

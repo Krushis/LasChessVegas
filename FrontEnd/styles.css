@@ -22,6 +22,7 @@ body {
 
 .start-btn {
   padding: 8px 16px;
+  margin-right: 10px;
   border: none;
   border-radius: 8px;
   background-color: #4CAF50;
@@ -53,8 +54,8 @@ body {
 .chessBoard {
   display: flex;
   flex-direction: column;
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  height: 600px;
   /* border: 2px solid #333; */
 }
 

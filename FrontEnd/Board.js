@@ -6,13 +6,14 @@ import { handleDragOver, handleDragStart, handleDrop } from "./DragPieces.js";
 const fetchAPI = new FetchWrapper("http://localhost:5098/");
 const annotationHelper = new AnnotationHelper();
 
-export async function initializeBoardUI() {
-    try {
+export async function initializeBoardUI(isAIMode = false) {
+     try {
         resetGameState();
         const dto = {
             Player1Id: "test1",
-            Player2Id: "test2" 
+            Player2Id: isAIMode ? "AI" : "test2"
         };
+        window.isAIGame = isAIMode;  // This was correct
 
         const jsonData = await fetchAPI.post("CreateAndGetBoard", dto);
         setBoard(jsonData.board);

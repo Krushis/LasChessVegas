@@ -22,7 +22,7 @@ namespace VegasBackend.Models.Pieces
         public override List<DTOLegalMove> GetLegalMoves(string[][] board, List<string> MadeMoves, bool skipCastle)
         {
             string lastMove = null;
-            if (MadeMoves.Count == 0)
+            if (MadeMoves.Count == 0) // temporary
             {
                 
             }

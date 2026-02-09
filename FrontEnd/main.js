@@ -1,15 +1,23 @@
 import {initializeBoardUI} from "./Board.js";
-import {updateLegalMoves}  from "./ApiLogic.js";
+import {updateLegalMoves, makeAIMove}  from "./ApiLogic.js";
 
-async function main() {
-    // await Promise.all([updateLegalMoves(), checkEndGame()]);
-    await initializeBoardUI();
+let isAIGame = false;
+let playerColor = 'white';
+
+async function main(aiMode = false) {
+    isAIGame = aiMode;
+    await initializeBoardUI(aiMode);
     await updateLegalMoves();
 }
 
-// Start button listener
 document.getElementById("start-game-button").addEventListener("click", async () => {
-    await main();
+    await main(false);
+    const chessBoard = document.querySelector(".chessBoard");
+    chessBoard.classList.add("active");
+});
+
+document.getElementById("start-ai-game-button").addEventListener("click", async () => {
+    await main(true);
     const chessBoard = document.querySelector(".chessBoard");
     chessBoard.classList.add("active");
 });
@@ -18,7 +26,7 @@ document.getElementById("new-game-button").addEventListener("click", async () =>
     document.getElementById("endgame-modal").classList.add("hidden");
     document.getElementById("overlay-blocker").style.display = "none";
     
-    await initializeBoardUI();
+    await initializeBoardUI(isAIGame);
     await updateLegalMoves();
 });
 
@@ -27,7 +35,6 @@ document.getElementById("endgame-modal").addEventListener("click", function(e) {
         this.classList.add("hidden");
     }
 });
-
 
 document.addEventListener('dragend', function(e) {
     if (e.target.classList.contains('chessPiece')) {
@@ -38,4 +45,4 @@ document.addEventListener('dragend', function(e) {
     }
 });
 
-
+export { isAIGame, playerColor };

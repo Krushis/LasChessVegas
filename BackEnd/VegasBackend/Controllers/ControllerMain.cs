@@ -7,6 +7,7 @@ using VegasBackend.Models.Pieces;
 using VegasBackend.ServerLogic;
 using VegasBackend.DbContex;
 using System.Text.Json;
+using VegasBackend.ServerLogic.ChessAI;
 
 namespace VegasBackend.Controllers
 {
@@ -280,6 +281,38 @@ namespace VegasBackend.Controllers
             }
         }
 
+        [HttpPost("/GetAIMove")]
+        public async Task<IActionResult> GetAIMove([FromBody] DTOGameID request)
+        {
+            var game = await _dbContext.Games.FindAsync(request.GameId);
+            if (game == null)
+                return NotFound(new { success = false, message = "Game not found" });
+
+            var board = JsonSerializer.Deserialize<string[][]>(game.BoardJson);
+            var madeMoves = JsonSerializer.Deserialize<List<string>>(game.MadeMovesJson);
+
+            var gameState = new GameState
+            {
+                Board = board,
+                MadeMoves = madeMoves,
+                MoveCount = game.MoveCount
+            };
+
+            var ai = new AIService();
+            var move = ai.GetBestMove(gameState, maxDepth: 3);
+
+            if (move == null)
+            {
+                return BadRequest(new { success = false, message = "No legal moves available" });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                from = move.From,
+                to = move.To
+            });
+        }
     }
 
 }
