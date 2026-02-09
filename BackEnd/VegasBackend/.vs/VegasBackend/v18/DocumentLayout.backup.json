@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\serverlogic\\chessai\\minmax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:serverlogic\\chessai\\minmax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\serverlogic\\chessai\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:serverlogic\\chessai\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\vegasbackend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:vegasbackend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\controllers\\benchmarkcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:controllers\\benchmarkcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\vegasbackend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
-      "RelativeMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|solutionrelative:vegasbackend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3935A495-7344-42F5-BAEE-901FB48F3A59}|VegasBackend.csproj|c:\\users\\lukas\\documents\\programming\\laschessvegas\\backend\\vegasbackend\\controllers\\controllermain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,63 +26,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MinMax.cs",
-              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\ServerLogic\\ChessAI\\MinMax.cs",
-              "RelativeDocumentMoniker": "ServerLogic\\ChessAI\\MinMax.cs",
-              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\ServerLogic\\ChessAI\\MinMax.cs",
-              "RelativeToolTip": "ServerLogic\\ChessAI\\MinMax.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAYwCkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-09T21:22:06.317Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AIService.cs",
-              "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\ServerLogic\\ChessAI\\AIService.cs",
-              "RelativeDocumentMoniker": "ServerLogic\\ChessAI\\AIService.cs",
-              "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\ServerLogic\\ChessAI\\AIService.cs",
-              "RelativeToolTip": "ServerLogic\\ChessAI\\AIService.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAwwE0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-09T21:12:12.176Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "BenchmarkController.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\BenchmarkController.cs",
               "RelativeDocumentMoniker": "Controllers\\BenchmarkController.cs",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\BenchmarkController.cs",
               "RelativeToolTip": "Controllers\\BenchmarkController.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAowBQAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-09T21:05:15.721Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "VegasBackend.http",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\VegasBackend.http",
               "RelativeDocumentMoniker": "VegasBackend.http",
               "ToolTip": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\VegasBackend.http",
               "RelativeToolTip": "VegasBackend.http",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2026-02-09T21:04:31.095Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "ControllerMain.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\Controllers\\ControllerMain.cs",
               "RelativeDocumentMoniker": "Controllers\\ControllerMain.cs",
@@ -103,7 +69,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Evaluation.cs",
               "DocumentMoniker": "C:\\Users\\Lukas\\Documents\\Programming\\LasChessVegas\\BackEnd\\VegasBackend\\ServerLogic\\ChessAI\\Evaluation.cs",
               "RelativeDocumentMoniker": "ServerLogic\\ChessAI\\Evaluation.cs",

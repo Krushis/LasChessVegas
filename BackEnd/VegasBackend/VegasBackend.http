@@ -5,6 +5,13 @@ Accept: application/json
 
 ###
 
+###
+
+GET http://localhost:5098/bench
+Accept: application/json
+
+###
+
 POST {{VegasBackend_HostAddress}}/CreateAndGetBoard
 Content-Type: application/json
 Accept: application/json
@@ -12,5 +19,4 @@ Accept: application/json
   "Player1Id": "test1",
   "Player2Id": "test2"
 }
-
 
