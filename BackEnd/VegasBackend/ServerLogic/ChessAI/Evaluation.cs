@@ -38,6 +38,13 @@
 
             return score;
         }
+
+        public static int GetPieceValue(char piece)
+        {
+            if (PieceValue.TryGetValue(piece, out int value))
+                return value;
+            return 0;
+        }
     }
 
 }

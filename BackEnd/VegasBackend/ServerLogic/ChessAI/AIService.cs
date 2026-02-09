@@ -47,14 +47,14 @@ namespace VegasBackend.ServerLogic.ChessAI
         {
             var board = new string[][]
             {
-                new[] { "bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR" },
-                new[] { "bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp" },
-                new[] { "-", "-", "-", "-", "-", "-", "-", "-" },
-                new[] { "-", "-", "-", "-", "-", "-", "-", "-" },
-                new[] { "-", "-", "-", "-", "-", "-", "-", "-" },
-                new[] { "-", "-", "-", "-", "-", "-", "-", "-" },
-                new[] { "wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp" },
-                new[] { "wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR" }
+                new[] { "bR", "-", "bB", "bQ", "bK", "-", "-", "bR" },
+                new[] { "bp", "bp", "-", "-", "bp", "bp", "bp", "bp" },
+                new[] { "-", "-", "bN", "-", "-", "bN", "-", "-" },
+                new[] { "-", "-", "bp", "bp", "-", "-", "-", "-" },
+                new[] { "-", "-", "wB", "wp", "wp", "-", "-", "-" },
+                new[] { "-", "-", "wN", "-", "-", "wN", "-", "-" },
+                new[] { "wp", "wp", "wp", "-", "-", "wp", "wp", "wp" },
+                new[] { "wR", "-", "wB", "wQ", "wK", "-", "-", "wR" }
             };
 
             var state = new GameState { Board = board, MadeMoves = new List<string>(), MoveCount = 0 };
@@ -63,7 +63,7 @@ namespace VegasBackend.ServerLogic.ChessAI
             Console.WriteLine("Depth | Nodes      | Time    | Nodes/sec");
             Console.WriteLine("------|------------|---------|----------");
 
-            for (int d = 1; d <= 3; d++)
+            for (int d = 1; d <= 4; d++)
             {
                 var ai = new AIService();
                 var sw = Stopwatch.StartNew();
