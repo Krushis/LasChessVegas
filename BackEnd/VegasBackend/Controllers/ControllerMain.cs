@@ -299,7 +299,7 @@ namespace VegasBackend.Controllers
             };
 
             var ai = new AIService();
-            var move = ai.GetBestMove(gameState, maxDepth: 3);
+            var move = ai.GetBestMove(gameState, maxDepth: 4);
 
             if (move == null)
             {

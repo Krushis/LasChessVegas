@@ -1,44 +1,43 @@
 ﻿using VegasBackend.ServerLogic.ChessAI.Model;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace VegasBackend.ServerLogic.ChessAI
 {
     public class AIService
     {
         private int _lastNodesSearched = 0;
+        private readonly Minmax _minimax = new Minmax();
 
-        public AIMove GetBestMove(GameState state, int maxDepth)
+        public string GetTTStats() => _minimax.GetTTStats();
+
+        public AIMove GetBestMove(GameState state, int maxDepth, bool useIterativeDeepening = true)
         {
             AIMove bestMove = null;
             bool isWhiteTurn = state.MoveCount % 2 == 0;
 
-            for (int depth = 1; depth <= maxDepth; depth++)
+            int startDepth = useIterativeDeepening ? 1 : maxDepth;
+
+            for (int depth = startDepth; depth <= maxDepth; depth++)
             {
-                var minimax = new Minimax();
+                int nodesBefore = _minimax.NodesSearched;
+
                 int bestScore = isWhiteTurn ? int.MinValue : int.MaxValue;
-                var moves = LegalMoveGenerator.GetAllLegalMoves(
-                    state.Board, state.MadeMoves, isWhiteTurn
-                );
+                var moves = LegalMoveGenerator.GetAllLegalMoves(state.Board, state.MadeMoves, isWhiteTurn);
+
                 foreach (var move in moves)
                 {
                     var next = GameStateUtils.ApplyMove(state, move);
-                    int score = minimax.Search(
-                        next, depth - 1,
-                        int.MinValue, int.MaxValue,
-                        !isWhiteTurn
-                    );
-                    bool isBetter = isWhiteTurn ? (score > bestScore) : (score < bestScore);
-                    if (isBetter)
+                    int score = _minimax.Search(next, depth - 1, int.MinValue, int.MaxValue, !isWhiteTurn);
+
+                    if (isWhiteTurn ? (score > bestScore) : (score < bestScore))
                     {
                         bestScore = score;
-                        bestMove = new AIMove(
-                            $"{move.Move[0]}{move.Move[1]}",
-                            $"{move.Move[2]}{move.Move[3]}"
-                        );
+                        bestMove = new AIMove(move.Move.Substring(0, 2), move.Move.Substring(2, 2));
                     }
                 }
-                _lastNodesSearched = minimax.NodesSearched;
-                Console.WriteLine($"Depth {depth}: nodes={minimax.NodesSearched}");
+
+                _lastNodesSearched = _minimax.NodesSearched - nodesBefore;
             }
             return bestMove;
         }
@@ -59,23 +58,29 @@ namespace VegasBackend.ServerLogic.ChessAI
 
             var state = new GameState { Board = board, MadeMoves = new List<string>(), MoveCount = 0 };
 
-            Console.WriteLine("\n=== BENCHMARK ===");
-            Console.WriteLine("Depth | Nodes      | Time    | Nodes/sec");
-            Console.WriteLine("------|------------|---------|----------");
+            // Create the AI service ONCE
+            var ai = new AIService();
 
-            for (int d = 1; d <= 4; d++)
+            Console.WriteLine("\n=== BENCHMARK ===");
+            Console.WriteLine("Depth | Nodes (New) | Time    | Nodes/sec");
+            Console.WriteLine("------|-------------|---------|----------");
+
+            var sw = new Stopwatch();
+
+            for (int d = 1; d <= 5; d++)
             {
-                var ai = new AIService();
-                var sw = Stopwatch.StartNew();
-                ai.GetBestMove(state, d);
+                sw.Restart();
+                ai.GetBestMove(state, d, useIterativeDeepening: false);
                 sw.Stop();
 
                 int nodes = ai._lastNodesSearched;
                 double nps = nodes / (sw.Elapsed.TotalSeconds + 0.001);
 
-                Console.WriteLine($"{d,5} | {nodes,10:N0} | {sw.ElapsedMilliseconds,6}ms | {nps,10:N0}");
-            }
+                string ttStats = ai.GetTTStats();
 
+                Console.WriteLine($"{d,5} | {nodes,10:N0} | {sw.ElapsedMilliseconds,6}ms | {nps,10:N0}");
+                Console.WriteLine($"      ┗━ TT Stats: {ttStats}");
+            }
             Console.WriteLine("=================\n");
         }
     }

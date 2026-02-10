@@ -52,6 +52,9 @@ namespace VegasBackend.Models
             var fromIndex = AlgebraicToIndex(from);
             var toIndex = AlgebraicToIndex(to);
 
+            if (fromIndex == null || toIndex == null)
+                return; // temporary...
+
             int fromRow = fromIndex.Value.Row;
             int fromCol = fromIndex.Value.Col;
 

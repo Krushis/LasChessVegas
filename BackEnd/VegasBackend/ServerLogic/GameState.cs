@@ -16,5 +16,12 @@
                 };
         public int MoveCount { get; set; } = 0;
         public List<string> MadeMoves { get; set; } = new List<string>();
+
+        public ulong Hash { get; set; }
+
+        public GameState()
+        {
+            Hash = 0;
+        }
     }
 }

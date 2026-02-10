@@ -1,5 +1,6 @@
 ﻿using VegasBackend.DTO;
 using VegasBackend.Models;
+using VegasBackend.ServerLogic.ChessAI;
 
 namespace VegasBackend.ServerLogic
 {
@@ -20,12 +21,15 @@ namespace VegasBackend.ServerLogic
 
             newMoves.Add(move.Move);
 
-            return new GameState
+            var newState = new GameState
             {
                 Board = newBoard,
-                MadeMoves = newMoves,
-                MoveCount = state.MoveCount + 1
+                MadeMoves = new List<string>(state.MadeMoves) { move.Move },
+                MoveCount = state.MoveCount + 1,
+                Hash = Hashing.ComputeHash(newBoard, (state.MoveCount + 1) % 2 == 0)
             };
+
+            return newState;
         }
     }
 }
