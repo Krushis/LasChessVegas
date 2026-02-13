@@ -120,7 +120,7 @@ namespace VegasBackend.Controllers
                     return Ok(legalMoves);
                 }
 
-                // we pick 2 random pieces here
+                // we pick 3 random pieces here
                 var rnd = new Random();
                 var chosenGroups = movesByPiece
                     .OrderBy(x => rnd.Next())
@@ -298,19 +298,61 @@ namespace VegasBackend.Controllers
                 MoveCount = game.MoveCount
             };
 
+            bool isWhiteTurn = gameState.MoveCount % 2 == 0;
+            var allLegalMoves = LegalMoveGenerator.GetAllLegalMoves(
+                gameState.Board,
+                gameState.MadeMoves,
+                isWhiteTurn
+            );
+
+            var movesByPiece = allLegalMoves
+                .GroupBy(m => m.Piece)
+                .ToList();
+
+            List<DTOLegalMove> allowedMoves;
+
+            if (movesByPiece.Count <= 3)
+            {
+                allowedMoves = allLegalMoves;
+            }
+            else
+            {
+                var rnd = new Random();
+                allowedMoves = movesByPiece
+                    .OrderBy(x => rnd.Next())
+                    .Take(3)
+                    .SelectMany(g => g)
+                    .ToList();
+            }
+
+            _logger.LogInformation($"AI has {allowedMoves.Count} allowed moves from {movesByPiece.Count} piece types");
+
+            var restrictedState = new GameState
+            {
+                Board = gameState.Board,
+                MadeMoves = gameState.MadeMoves,
+                MoveCount = gameState.MoveCount
+            };
+
             var ai = new AIService();
-            var move = ai.GetBestMove(gameState, maxDepth: 4);
+            var move = ai.GetBestMoveFromAllowedMoves(restrictedState, allowedMoves, maxDepth: 3);
 
             if (move == null)
             {
                 return BadRequest(new { success = false, message = "No legal moves available" });
             }
 
+            var selectedMove = allowedMoves.FirstOrDefault(m => m.Move == move.From + move.To);
+
             return Ok(new
             {
                 success = true,
                 from = move.From,
-                to = move.To
+                to = move.To,
+                piece = selectedMove?.Piece,
+                isEnPassant = selectedMove?.IsEnPassant ?? false,
+                isPawnPromotion = selectedMove?.IsPawnPromotion ?? false,
+                isCastle = selectedMove?.IsCastle ?? false
             });
         }
     }

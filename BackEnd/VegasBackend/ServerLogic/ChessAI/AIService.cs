@@ -1,6 +1,7 @@
-﻿using VegasBackend.ServerLogic.ChessAI.Model;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using VegasBackend.DTO;
+using VegasBackend.ServerLogic.ChessAI.Model;
 
 namespace VegasBackend.ServerLogic.ChessAI
 {
@@ -39,6 +40,59 @@ namespace VegasBackend.ServerLogic.ChessAI
 
                 _lastNodesSearched = _minimax.NodesSearched - nodesBefore;
             }
+            return bestMove;
+        }
+
+        public AIMove GetBestMoveFromAllowedMoves(GameState state, List<DTOLegalMove> allowedMoves, int maxDepth)
+        {
+            if (allowedMoves == null || !allowedMoves.Any())
+                return null;
+
+            AIMove bestMove = null;
+            bool isWhiteTurn = state.MoveCount % 2 == 0;
+
+            // Create a function that returns only allowed moves (for root only)
+            Func<string[][], List<string>, bool, List<DTOLegalMove>> rootMoveGen =
+                (board, madeMoves, whiteTurn) => allowedMoves;
+
+            for (int depth = 1; depth <= maxDepth; depth++)
+            {
+                // Pass unrestricted generator for lookahead, restricted for root
+                var minimax = new Minmax(
+                    tt: null,
+                    moveGenerator: LegalMoveGenerator.GetAllLegalMoves,  // Unrestricted for lookahead
+                    rootMoveGenerator: rootMoveGen                        // Restricted at root
+                );
+
+                int bestScore = isWhiteTurn ? int.MinValue : int.MaxValue;
+
+                foreach (var move in allowedMoves)
+                {
+                    var next = GameStateUtils.ApplyMove(state, move);
+
+                    // Call with isRoot = false because we're already past root
+                    int score = minimax.Search(
+                        next, depth - 1,
+                        int.MinValue, int.MaxValue,
+                        !isWhiteTurn,
+                        isRoot: false  // We're evaluating from opponent's perspective
+                    );
+
+                    bool isBetter = isWhiteTurn ? (score > bestScore) : (score < bestScore);
+                    if (isBetter)
+                    {
+                        bestScore = score;
+                        bestMove = new AIMove(
+                            $"{move.Move[0]}{move.Move[1]}",
+                            $"{move.Move[2]}{move.Move[3]}"
+                        );
+                    }
+                }
+
+                _lastNodesSearched = minimax.NodesSearched;
+                Console.WriteLine($"AI Depth {depth}: nodes={minimax.NodesSearched}, score={bestScore}");
+            }
+
             return bestMove;
         }
 
